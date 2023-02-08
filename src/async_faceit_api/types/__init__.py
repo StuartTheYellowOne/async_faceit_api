@@ -94,12 +94,7 @@ class Game(Enum):
 
 
 class FaceitApiResponse:
-    """
-    Superclass of all API responses.
-
-    :param success: wether the response was successful. Useful to spot errors
-    :type success: bool
-    """
+    
 
     def __init__(self, success: bool = True, **kwargs):
         self.__success = success
@@ -112,26 +107,7 @@ class FaceitApiResponse:
 
 
 class Assets(FaceitApiResponse):
-    """
-    :param cover:
-    :param featured_img_l:
-    :param featured_img_m:
-    :param featured_img_s:
-    :param flag_img_icon:
-    :param flag_img_l:
-    :param flag_img_m:
-    :param flag_img_s:
-    :param landing_page:
-    :type cover: str
-    :type featured_img_l: str
-    :type featured_img_m: str
-    :type featured_img_s: str
-    :type flag_img_icon: str
-    :type flag_img_l: str
-    :type flag_img_m: str
-    :type flag_img_s: str
-    :type landing_page: str
-    """
+    
     def __init__(self,
                  cover: str,
                  featured_img_l: str,
@@ -156,12 +132,7 @@ class Assets(FaceitApiResponse):
 
 
 class FaceitApiError(FaceitApiResponse):
-    """
-    :param message: message contained in the response. Default 'Bad Request'
-    :param status_code: error code from the response. Default 400
-    :type message: str
-    :type status_code: int
-    """
+    
     def __init__(self, message: str = 'Bad Request', status_code: int = 400, **kwargs):
         super().__init__(False, **kwargs)
         self.message = message
@@ -169,24 +140,7 @@ class FaceitApiError(FaceitApiResponse):
 
 
 class GameData(FaceitApiResponse):
-    """
-    :param assets:
-    :param game_id:
-    :param long_label:
-    :param order:
-    :param parent_game_id:
-    :param platforms:
-    :param regions:
-    :param short_label:
-    :type assets: Assets
-    :type game_id: str
-    :type long_label: str
-    :type order: int
-    :type parent_game_id: str
-    :type platforms: List[str]
-    :type regions: List[str]
-    :type short_label: str
-    """
+    
     def __init__(self,
                  assets: dict,
                  game_id: str,
@@ -209,24 +163,7 @@ class GameData(FaceitApiResponse):
 
 
 class JoinChecks(FaceitApiResponse):
-    """
-    :param allowed_team_types:
-    :param blacklist_geo_countries:
-    :param join_policy:
-    :param max_skill_level:
-    :param membership_type:
-    :param min_skill_level:
-    :param whitelist_geo_countries:
-    :param whitelist_geo_countries_min_players:
-    :type allowed_team_types: List[str]
-    :type blacklist_geo_countries: List[str]
-    :type join_policy: str
-    :type max_skill_level: int
-    :type membership_type: str
-    :type min_skill_level: int
-    :type whitelist_geo_countries: List[str]
-    :type whitelist_geo_countries_min_players: int
-    """
+    
     def __init__(self,
                  allowed_team_types: List[str],
                  blacklist_geo_countries: List[str],
@@ -249,36 +186,7 @@ class JoinChecks(FaceitApiResponse):
 
 
 class OrganizerData(FaceitApiResponse):
-    """
-    :param avatar:
-    :param cover:
-    :param description:
-    :param facebook:
-    :param faceit_url:
-    :param followers_count:
-    :param name:
-    :param organizer_id:
-    :param twitch:
-    :param twitter:
-    :param type:
-    :param vk:
-    :param website:
-    :param youtube:
-    :type avatar: str
-    :type cover: str
-    :type description: str
-    :type facebook: str
-    :type faceit_url: str
-    :type followers_count: int
-    :type name: str
-    :type organizer_id: str
-    :type twitch: str
-    :type twitter: str
-    :type type: str
-    :type vk: str
-    :type website: str
-    :type youtube: str
-    """
+    
     def __init__(self,
                  avatar: str,
                  cover: str,
@@ -313,12 +221,7 @@ class OrganizerData(FaceitApiResponse):
 
 
 class Prize(FaceitApiResponse):
-    """
-    :param faceit_points:
-    :param rank:
-    :type faceit_points: int
-    :type rank: int
-    """
+    
     def __init__(self,
                  faceit_points: int,
                  rank: int,
@@ -329,16 +232,7 @@ class Prize(FaceitApiResponse):
 
 
 class Stream(FaceitApiResponse):
-    """
-    :param active:
-    :param platform:
-    :param source:
-    :param title:
-    :type active: bool
-    :type platform: str
-    :type source: str
-    :type title: str
-    """
+    
     def __init__(self,
                  active: bool,
                  platform: str,
@@ -353,12 +247,7 @@ class Stream(FaceitApiResponse):
 
 
 class SubstitutionConfiguration(FaceitApiResponse):
-    """
-    :param max_substitutes:
-    :param max_substitutions:
-    :type max_substitutes: int
-    :type max_substitutions: int
-    """
+    
     def __init__(self,
                  max_substitutes: int,
                  max_substitutions: int,
@@ -369,82 +258,7 @@ class SubstitutionConfiguration(FaceitApiResponse):
 
 
 class Championship(FaceitApiResponse):
-    """
-    :param anticheat_required:
-    :param avatar:
-    :param background_image:
-    :param championship_id:
-    :param championship_start:
-    :param checkin_clear:
-    :param checkin_enabled:
-    :param checkin_start:
-    :param cover_image:
-    :param current_subscriptions:
-    :param description:
-    :param faceit_url:
-    :param featured:
-    :param full:
-    :param game_data:
-    :param game_id:
-    :param id:
-    :param join_checks:
-    :param name:
-    :param organizer_data:
-    :param organizer_id:
-    :param prizes:
-    :param region:
-    :param rules_id:
-    :param schedule:
-    :param seeding_strategy:
-    :param slots:
-    :param status:
-    :param stream:
-    :param subscription_end:
-    :param subscription_start:
-    :param subscriptions_locked:
-    :param substitution_configuration:
-    :param total_groups:
-    :param total_prizes:
-    :param total_rounds:
-    :param type:
-    :type anticheat_required: bool
-    :type avatar: str
-    :type background_image: str
-    :type championship_id: str
-    :type championship_start: int
-    :type checkin_clear: int
-    :type checkin_enabled: bool
-    :type checkin_start: int
-    :type cover_image: str
-    :type current_subscriptions: int
-    :type description: str
-    :type faceit_url: str
-    :type featured: bool
-    :type full: bool
-    :type game_data: dict
-    :type game_id: str
-    :type id: str
-    :type join_checks: dict
-    :type name: str
-    :type organizer_data: dict
-    :type organizer_id: str
-    :type prizes: list
-    :type region: str
-    :type rules_id: str
-    :type schedule: dict
-    :type seeding_strategy: str
-    :type slots: int
-    :type status: str
-    :type stream: dict
-    :type subscription_end: int
-    :type subscription_start: int
-    :type subscriptions_locked: bool
-    :type substitution_configuration: dict
-    :type total_groups: int
-    :type total_prizes: int
-    :type total_rounds: int
-    :type type: str
-    """
+    
     def __init__(self,
                  anticheat_required: bool,
                  avatar: str,
@@ -532,14 +346,7 @@ T = TypeVar("T")
 
 
 class Collection(FaceitApiResponse, Generic[T]):
-    """
-    :param end:
-    :param items:
-    :param start:
-    :type end: int
-    :type items: list
-    :type start: int
-    """
+    
     def __init__(self,
                  end: int,
                  items: List[T],
@@ -558,16 +365,7 @@ class Collection(FaceitApiResponse, Generic[T]):
 
 
 class RankCollection(Collection, Generic[T]):
-    """
-    :param end:
-    :param items:
-    :param start:
-    :param position:
-    :type end: int
-    :type items: list
-    :type start: int
-    :type position: int
-    """
+    
     def __init__(self,
                  end: int,
                  items: List[T],
@@ -579,16 +377,7 @@ class RankCollection(Collection, Generic[T]):
 
 
 class ChampionshipRankingCollection(Collection, Generic[T]):
-    """
-    :param end:
-    :param items:
-    :param start:
-    :param leaderboard:
-    :type end: int
-    :type items: list
-    :type start: int
-    :param leaderboard: dict
-    """
+    
     def __init__(self,
                  end: int,
                  items: list,
@@ -600,18 +389,7 @@ class ChampionshipRankingCollection(Collection, Generic[T]):
 
 
 class FromToCollection(Collection, Generic[T]):
-    """
-    :param end:
-    :param items:
-    :param start:
-    :param from_:
-    :param to:
-    :type end: int
-    :type items: list
-    :type start: int
-    :type from_: int
-    :type to: int
-    """
+    
     def __init__(self,
                  end: int,
                  items: list,
@@ -625,12 +403,7 @@ class FromToCollection(Collection, Generic[T]):
 
 
 class Bounds(FaceitApiResponse):
-    """
-    :param left:
-    :param right:
-    :type left: int
-    :type right: int
-    """
+    
     def __init__(self,
                  left: int,
                  right: int,
@@ -641,14 +414,7 @@ class Bounds(FaceitApiResponse):
 
 
 class Placement(FaceitApiResponse):
-    """
-    :param id:
-    :param name:
-    :param type:
-    :type id: str
-    :type name: str
-    :type type: str
-    """
+    
     def __init__(self,
                  id: str,
                  name: str,
@@ -661,12 +427,7 @@ class Placement(FaceitApiResponse):
 
 
 class Result(FaceitApiResponse):
-    """
-    :param bounds:
-    :param placements:
-    :type bounds: dict
-    :type placements: list
-    """
+    
     def __init__(self,
                  bounds: dict,
                  placements: list,
@@ -677,12 +438,7 @@ class Result(FaceitApiResponse):
 
 
 class Results(FaceitApiResponse):
-    """
-    :param score:
-    :param winner:
-    :type score: dict
-    :type winner: str
-    """
+    
     def __init__(self,
                  score: dict,
                  winner: str,
@@ -693,58 +449,7 @@ class Results(FaceitApiResponse):
 
 
 class Match(FaceitApiResponse):
-    """
-    :param best_of:
-    :param broadcast_start_time:
-    :param broadcast_start_time_label:
-    :param calculate_elo:
-    :param chat_room_id:
-    :param competition_id:
-    :param competition_name:
-    :param competition_type:
-    :param configured_at:
-    :param demo_url:
-    :param faceit_url:
-    :param finished_at:
-    :param game:
-    :param group:
-    :param match_id:
-    :param organizer_id:
-    :param region:
-    :param results:
-    :param round:
-    :param scheduled_at:
-    :param started_at:
-    :param status:
-    :param teams:
-    :param version:
-    :param voting:
-    :type best_of: int
-    :type broadcast_start_time: int
-    :type broadcast_start_time_label: str
-    :type calculate_elo: bool
-    :type chat_room_id: str
-    :type competition_id: str
-    :type competition_name: str
-    :type competition_type: str
-    :type configured_at: int
-    :type demo_url: list[str]
-    :type faceit_url: str
-    :type finished_at: int
-    :type game: str
-    :type group: int
-    :type match_id: str
-    :type organizer_id: str
-    :type region: str
-    :type results: dict
-    :type round: int
-    :type scheduled_at: int
-    :type started_at: int
-    :type status: str
-    :type teams: dict
-    :type version: int
-    :type voting: dict
-    """
+    
     def __init__(self,
                  best_of: int,
                  calculate_elo: bool,
@@ -801,18 +506,7 @@ class Match(FaceitApiResponse):
 
 
 class Member(FaceitApiResponse):
-    """
-    :param avatar:
-    :param faceit_url:
-    :param nickname:
-    :param roles:
-    :param user_id:
-    :type avatar: str
-    :type faceit_url: str
-    :type nickname: str
-    :type roles: List[str]
-    :type user_id: str
-    """
+    
     def __init__(self,
                  avatar: str,
                  faceit_url: str,
@@ -829,24 +523,7 @@ class Member(FaceitApiResponse):
 
 
 class TeamMember(FaceitApiResponse):
-    """
-    :param avatar:
-    :param country:
-    :param faceit_url:
-    :param membership_type:
-    :param memberships:
-    :param nickname:
-    :param skill_level:
-    :param user_id:
-    :type avatar: str
-    :type country: str
-    :type faceit_url: str
-    :type membership_type: str
-    :type memberships: List[str]
-    :type nickname: str
-    :type skill_level: int
-    :type user_id: str
-    """
+    
     def __init__(self,
                  avatar: str,
                  country: str,
@@ -869,40 +546,7 @@ class TeamMember(FaceitApiResponse):
 
 
 class Team(FaceitApiResponse):
-    """
-    :param avatar:
-    :param chat_room_id:
-    :param cover_image:
-    :param description:
-    :param facebook:
-    :param faceit_url:
-    :param game:
-    :param leader:
-    :param members:
-    :param name:
-    :param nickname:
-    :param team_id:
-    :param team_type:
-    :param twitter:
-    :param website:
-    :param youtube:
-    :type avatar: str
-    :type chat_room_id: str
-    :type cover_image: str
-    :type description: str
-    :type facebook: str
-    :type faceit_url: str
-    :type game: str
-    :type leader: str
-    :type members: list
-    :type name: str
-    :type nickname: str
-    :type team_id: str
-    :type team_type: str
-    :type twitter: str
-    :type website: str
-    :type youtube: str
-    """
+    
     def __init__(self,
                  avatar: str,
                  chat_room_id: str,
@@ -941,24 +585,7 @@ class Team(FaceitApiResponse):
 
 
 class Subscription(FaceitApiResponse):
-    """
-    :param coach:
-    :param coleader:
-    :param group:
-    :param leader:
-    :param roster:
-    :param status:
-    :param substitutes:
-    :param team:
-    :type coach: str
-    :type coleader: str
-    :type group: int
-    :type leader: str
-    :type roster: List[str]
-    :type status: str
-    :type substitutes: List[str]
-    :type team: dict
-    """
+    
     def __init__(self,
                  coach: str,
                  coleader: str,
@@ -981,44 +608,7 @@ class Subscription(FaceitApiResponse):
 
 
 class Hub(FaceitApiResponse):
-    """
-    :param avatar:
-    :param background_image:
-    :param chat_room_id:
-    :param cover_image:
-    :param description:
-    :param faceit_url:
-    :param game_data:
-    :param game_id:
-    :param hub_id:
-    :param join_permission:
-    :param max_skill_level:
-    :param min_skill_level:
-    :param name:
-    :param organizer_data:
-    :param organizer_id:
-    :param players_joined:
-    :param region:
-    :param rule_id:
-    :type avatar: str
-    :type background_image: str
-    :type chat_room_id: str
-    :type cover_image: str
-    :type description: str
-    :type faceit_url: str
-    :type game_data: GameData
-    :type game_id: str
-    :type hub_id: str
-    :type join_permission: str
-    :type max_skill_level: int
-    :type min_skill_level: int
-    :type name: str
-    :type organizer_data: OrganizerData
-    :type organizer_id: str
-    :type players_joined: int
-    :type region: str
-    :type rule_id: str
-    """
+    
     def __init__(self,
                  avatar: str,
                  faceit_url: str,
@@ -1062,18 +652,7 @@ class Hub(FaceitApiResponse):
 
 
 class Role(FaceitApiResponse):
-    """
-    :param color:
-    :param name:
-    :param ranking:
-    :param role_id:
-    :param visible_on_chat:
-    :type color: str
-    :type name: str
-    :type ranking: int
-    :type role_id: str
-    :type visible_on_chat: bool
-    """
+    
     def __init__(self,
                  color: str,
                  name: str,
@@ -1090,18 +669,7 @@ class Role(FaceitApiResponse):
 
 
 class Rule(FaceitApiResponse):
-    """
-    :param body:
-    :param game:
-    :param name:
-    :param organizer:
-    :param rule_id:
-    :type body: str
-    :type game: str
-    :type name: str
-    :type organizer: str
-    :type rule_id: str
-    """
+    
     def __init__(self,
                  body: str,
                  game: str,
@@ -1118,12 +686,7 @@ class Rule(FaceitApiResponse):
 
 
 class GameStats(FaceitApiResponse):
-    """
-    :param game_id:
-    :param players:
-    :type game_id: str
-    :type players: list
-    """
+    
     def __init__(self,
                  game_id: str,
                  players: list,
@@ -1134,14 +697,7 @@ class GameStats(FaceitApiResponse):
 
 
 class GamePlayerStats(FaceitApiResponse):
-    """
-    :param nickname:
-    :param player_id:
-    :param stats:
-    :type nickname: str
-    :type player_id: str
-    :type stats: dict
-    """
+    
     def __init__(self,
                  nickname: str,
                  player_id: str,
@@ -1154,14 +710,7 @@ class GamePlayerStats(FaceitApiResponse):
 
 
 class PlayerStats(FaceitApiResponse):
-    """
-    :param nickname:
-    :param player_id:
-    :param player_stats:
-    :type nickname: str
-    :type player_id: str
-    :type player_stats: dict
-    """
+    
     def __init__(self,
                  nickname: str,
                  player_id: str,
@@ -1174,52 +723,7 @@ class PlayerStats(FaceitApiResponse):
 
 
 class Leaderboard(FaceitApiResponse):
-    """
-    :param competition_id:
-    :param competition_type:
-    :param end_date:
-    :param game_id:
-    :param group:
-    :param leaderboard_id:
-    :param leaderboard_mode:
-    :param leaderboard_name:
-    :param leaderboard_type:
-    :param min_matches:
-    :param points_per_draw:
-    :param points_per_loss:
-    :param points_per_win:
-    :param points_type:
-    :param ranking_boost:
-    :param ranking_type:
-    :param region:
-    :param round:
-    :param season:
-    :param start_date:
-    :param starting_points:
-    :param status:
-    :type competition_id: str
-    :type competition_type: str
-    :type end_date: int
-    :type game_id: str
-    :type group: int
-    :type leaderboard_id: str
-    :type leaderboard_mode: str
-    :type leaderboard_name: str
-    :type leaderboard_type: str
-    :type min_matches: int
-    :type points_per_draw: int
-    :type points_per_loss: int
-    :type points_per_win: int
-    :type points_type: str
-    :type ranking_boost: int
-    :type ranking_type: str
-    :type region: str
-    :type round: int
-    :type season: int
-    :type start_date: int
-    :type starting_points: int
-    :type status: str
-    """
+    
     def __init__(self,
                  competition_id: str,
                  competition_type: str,
@@ -1270,26 +774,7 @@ class Leaderboard(FaceitApiResponse):
 
 
 class Ranking(FaceitApiResponse):
-    """
-    :param current_streak:
-    :param draw:
-    :param lost:
-    :param played:
-    :param player:
-    :param points:
-    :param position:
-    :param win_rate:
-    :param won:
-    :type current_streak: int
-    :type draw: int
-    :type lost: int
-    :type played: int
-    :type player: dict
-    :type points: int
-    :type position: int
-    :type win_rate: int
-    :type won: int
-    """
+    
     def __init__(self,
                  current_streak: int,
                  draw: int,
@@ -1314,16 +799,7 @@ class Ranking(FaceitApiResponse):
 
 
 class TeamStats(FaceitApiResponse):
-    """
-    :param players:
-    :param premade:
-    :param team_id:
-    :param team_stats:
-    :type players: list
-    :type premade: dict
-    :type team_id: dict
-    :type team_stats: dict
-    """
+    
     def __init__(self,
                  players: list,
                  premade: dict,
@@ -1338,26 +814,7 @@ class TeamStats(FaceitApiResponse):
 
 
 class RoundStats(FaceitApiResponse):
-    """
-    :param best_of:
-    :param competition_id:
-    :param game_id:
-    :param game_mode:
-    :param match_id:
-    :param match_round:
-    :param played:
-    :param round_stats:
-    :param teams:
-    :type best_of: dict
-    :type competition_id: dict
-    :type game_id: dict
-    :type game_mode: dict
-    :type match_id: dict
-    :type match_round: dict
-    :type played: dict
-    :type round_stats: dict
-    :type teams: list
-    """
+    
     def __init__(self,
                  best_of: dict,
                  competition_id: dict,
@@ -1382,10 +839,7 @@ class RoundStats(FaceitApiResponse):
 
 
 class MatchStats(FaceitApiResponse):
-    """
-    :param rounds:
-    :type rounds: list
-    """
+    
     def __init__(self,
                  rounds: list,
                  **kwargs):
@@ -1394,58 +848,7 @@ class MatchStats(FaceitApiResponse):
 
 
 class Tournament(FaceitApiResponse):
-    """
-    :param anticheat_required:
-    :param custom:
-    :param faceit_url:
-    :param featured_image:
-    :param game_id:
-    :param invite_type:
-    :param match_type:
-    :param max_skill:
-    :param membership_type:
-    :param min_skill:
-    :param name:
-    :param number_of_players:
-    :param number_of_players_checkedin:
-    :param number_of_players_joined:
-    :param number_of_players_participants:
-    :param organizer_id:
-    :param prize_type:
-    :param region:
-    :param started_at:
-    :param status:
-    :param subscriptions_count:
-    :param team_size:
-    :param total_prize:
-    :param tournament_id:
-    :param whitelist_countries:
-    :type anticheat_required: bool
-    :type custom: bool
-    :type faceit_url: str
-    :type featured_image: str
-    :type game_id: str
-    :type invite_type: str
-    :type match_type: str
-    :type max_skill: int
-    :type membership_type: str
-    :type min_skill: int
-    :type name: str
-    :type number_of_players: int
-    :type number_of_players_checkedin: int
-    :type number_of_players_joined: int
-    :type number_of_players_participants: int
-    :type organizer_id: str
-    :type prize_type: str
-    :type region: str
-    :type started_at: int
-    :type status: str
-    :type subscriptions_count: int
-    :type team_size: int
-    :type total_prize: dict
-    :type tournament_id: str
-    :type whitelist_countries: list
-    """
+    
     def __init__(self,
                  anticheat_required: bool,
                  custom: bool,
@@ -1502,80 +905,7 @@ class Tournament(FaceitApiResponse):
 
 
 class TournamentData(FaceitApiResponse):
-    """
-    :param anticheat_required:
-    :param best_of:
-    :param calculate_elo:
-    :param competition_id:
-    :param cover_image:
-    :param custom:
-    :param description:
-    :param faceit_url:
-    :param featured_image:
-    :param game_data:
-    :param game_id:
-    :param invite_type:
-    :param match_type:
-    :param max_skill:
-    :param membership_type:
-    :param min_skill:
-    :param name:
-    :param number_of_players:
-    :param number_of_players_checkedin:
-    :param number_of_players_joined:
-    :param number_of_players_participants:
-    :param organizer_data:
-    :param organizer_id:
-    :param prize_type:
-    :param region:
-    :param rounds:
-    :param rule:
-    :param started_at:
-    :param status:
-    :param substitutes_allowed:
-    :param substitutions_allowed:
-    :param team_size:
-    :param total_prize:
-    :param tournament_id:
-    :param voting:
-    :param whitelist_countries:
-    :type anticheat_required: bool
-    :type best_of: dict
-    :type calculate_elo: bool
-    :type competition_id: str
-    :type cover_image: str
-    :type custom: bool
-    :type description: str
-    :type faceit_url: str
-    :type featured_image: str
-    :type game_data: dict
-    :type game_id: str
-    :type invite_type: str
-    :type match_type: str
-    :type max_skill: int
-    :type membership_type: str
-    :type min_skill: int
-    :type name: str
-    :type number_of_players: int
-    :type number_of_players_checkedin: int
-    :type number_of_players_joined: int
-    :type number_of_players_participants: int
-    :type organizer_data: dict
-    :type organizer_id: str
-    :type prize_type: str
-    :type region: str
-    :type rounds: list
-    :type rule: str
-    :type started_at: int
-    :type status: str
-    :type substitutes_allowed: int
-    :type substitutions_allowed: int
-    :type team_size: int
-    :type total_prize: dict
-    :type tournament_id: str
-    :type voting: dict
-    :type whitelist_countries: list
-    """
+    
     def __init__(self,
                  anticheat_required: bool,
                  best_of: dict,
@@ -1654,42 +984,7 @@ class TournamentData(FaceitApiResponse):
 
 
 class Player(FaceitApiResponse):
-    """
-    :param avatar:
-    :param country:
-    :param cover_featured_image:
-    :param cover_image:
-    :param faceit_url:
-    :param friends_ids:
-    :param games:
-    :param infractions:
-    :param membership_type:
-    :param memberships:
-    :param new_steam_id:
-    :param nickname:
-    :param platforms:
-    :param player_id:
-    :param settings:
-    :param steam_id_64:
-    :param steam_nickname:
-    :type avatar: str
-    :type country: str
-    :type cover_featured_image: str
-    :type cover_image: str
-    :type faceit_url: str
-    :type friends_ids: List[str]
-    :type games: dict
-    :type infractions: dict
-    :type membership_type: str
-    :type memberships: List[str]
-    :type new_steam_id: str
-    :type nickname: str
-    :type platforms: dict
-    :type player_id: str
-    :type settings: dict
-    :type steam_id_64: str
-    :type steam_nickname: str
-    """
+    
     def __init__(self,
                  avatar: str,
                  country: str,
@@ -1730,44 +1025,7 @@ class Player(FaceitApiResponse):
 
 
 class PlayerMatch(FaceitApiResponse):
-    """
-    :param competition_id:
-    :param competition_name:
-    :param competition_type:
-    :param faceit_url:
-    :param finished_at:
-    :param game_id:
-    :param game_mode:
-    :param match_id:
-    :param match_type:
-    :param max_players:
-    :param organizer_id:
-    :param playing_players:
-    :param region:
-    :param results:
-    :param started_at:
-    :param status:
-    :param teams:
-    :param teams_size:
-    :type competition_id: str
-    :type competition_name: str
-    :type competition_type: str
-    :type faceit_url: str
-    :type finished_at: int
-    :type game_id: str
-    :type game_mode: str
-    :type match_id: str
-    :type match_type: str
-    :type max_players: int
-    :type organizer_id: str
-    :type playing_players: List[str]
-    :type region: str
-    :type results: dict
-    :type started_at: int
-    :type status: str
-    :type teams: dict
-    :type teams_size: int
-    """
+    
     def __init__(self,
                  competition_id: str,
                  competition_name: str,
@@ -1810,16 +1068,7 @@ class PlayerMatch(FaceitApiResponse):
 
 
 class PlayerGameStats(FaceitApiResponse):
-    """
-    :param game_id:
-    :param lifetime:
-    :param player_id:
-    :param segments:
-    :type game_id: str
-    :type lifetime: dict
-    :type player_id: str
-    :type segments: list
-    """
+    
     def __init__(self,
                  game_id: str,
                  lifetime: dict,
@@ -1834,16 +1083,7 @@ class PlayerGameStats(FaceitApiResponse):
 
 
 class TeamGameStats(FaceitApiResponse):
-    """
-    :param game_id:
-    :param lifetime:
-    :param segments:
-    :param team_id:
-    :type game_id: str
-    :type lifetime: dict
-    :type segments: list
-    :type team_id: str
-    """
+    
     def __init__(self,
                  game_id: str,
                  lifetime: dict,
@@ -1858,20 +1098,7 @@ class TeamGameStats(FaceitApiResponse):
 
 
 class Rank(FaceitApiResponse):
-    """
-    :param country:
-    :param faceit_elo:
-    :param game_skill_level:
-    :param nickname:
-    :param player_id:
-    :param position:
-    :type country: str
-    :type faceit_elo: int
-    :type game_skill_level: int
-    :type nickname: str
-    :type player_id: str
-    :type position: int
-    """
+    
     def __init__(self,
                  country: str,
                  faceit_elo: int,
@@ -1890,40 +1117,7 @@ class Rank(FaceitApiResponse):
 
 
 class ChampionshipSearchResult(FaceitApiResponse):
-    """
-    :param competition_id:
-    :param competition_type:
-    :param game:
-    :param name:
-    :param number_of_members:
-    :param organizer_id:
-    :param organizer_name:
-    :param organizer_type:
-    :param players_checkedin:
-    :param players_joined:
-    :param prize_type:
-    :param region:
-    :param slots:
-    :param started_at:
-    :param status:
-    :param total_prize:
-    :type competition_id: str
-    :type competition_type: str
-    :type game: str
-    :type name: str
-    :type number_of_members: int
-    :type organizer_id: str
-    :type organizer_name: str
-    :type organizer_type: str
-    :type players_checkedin: int
-    :type players_joined: int
-    :type prize_type: str
-    :type region: str
-    :type slots: int
-    :type started_at: int
-    :type status: str
-    :type total_prize: str
-    """
+    
     def __init__(self,
                  competition_id: str,
                  competition_type: str,
@@ -1962,24 +1156,7 @@ class ChampionshipSearchResult(FaceitApiResponse):
 
 
 class OrganizerSearchResult(FaceitApiResponse):
-    """
-    :param active:
-    :param avatar:
-    :param countries:
-    :param games:
-    :param name:
-    :param organizer_id:
-    :param partner:
-    :param regions:
-    :type active: bool
-    :type avatar: str
-    :type countries: list
-    :type games: list
-    :type name: str
-    :type organizer_id: str
-    :type partner: bool
-    :type regions: list
-    """
+    
     def __init__(self,
                  active: bool,
                  avatar: str,
@@ -2002,22 +1179,7 @@ class OrganizerSearchResult(FaceitApiResponse):
 
 
 class PlayerSearchResult(FaceitApiResponse):
-    """
-    :param avatar:
-    :param country:
-    :param games:
-    :param nickname:
-    :param player_id:
-    :param status:
-    :param verified:
-    :type avatar: str
-    :type country: str
-    :type games: list
-    :type nickname: str
-    :type player_id: str
-    :type status: str
-    :type verified: bool
-    """
+    
     def __init__(self,
                  avatar: str,
                  country: str,
@@ -2038,12 +1200,7 @@ class PlayerSearchResult(FaceitApiResponse):
 
 
 class GameSearchResult(FaceitApiResponse):
-    """
-    :param name:
-    :param skill_level:
-    :type name: str
-    :type skill_level: str
-    """
+    
     def __init__(self,
                  name: str,
                  skill_level: str,
@@ -2054,22 +1211,7 @@ class GameSearchResult(FaceitApiResponse):
 
 
 class TeamSearchResult(FaceitApiResponse):
-    """
-    :param avatar:
-    :param chat_room_id:
-    :param faceit_url:
-    :param game:
-    :param name:
-    :param team_id:
-    :param verified:
-    :type avatar: str
-    :type chat_room_id: str
-    :type faceit_url: str
-    :type game: str
-    :type name: str
-    :type team_id: str
-    :type verified: bool
-    """
+    
     def __init__(self,
                  avatar: str,
                  chat_room_id: str,
@@ -2090,40 +1232,7 @@ class TeamSearchResult(FaceitApiResponse):
 
 
 class TournamentSearchResult(FaceitApiResponse):
-    """
-    :param competition_id:
-    :param competition_type:
-    :param game:
-    :param name:
-    :param number_of_members:
-    :param organizer_id:
-    :param organizer_name:
-    :param organizer_type:
-    :param players_checkedin:
-    :param players_joined:
-    :param prize_type:
-    :param region:
-    :param slots:
-    :param started_at:
-    :param status:
-    :param total_prize:
-    :type competition_id: str
-    :type competition_type: str
-    :type game: str
-    :type name: str
-    :type number_of_members: int
-    :type organizer_id: str
-    :type organizer_name: str
-    :type organizer_type: str
-    :type players_checkedin: int
-    :type players_joined: int
-    :type prize_type: str
-    :type region: str
-    :type slots: int
-    :type started_at: int
-    :type status: str
-    :type total_prize: str
-    """
+    
     def __init__(self,
                  competition_id: str,
                  competition_type: str,
@@ -2162,18 +1271,7 @@ class TournamentSearchResult(FaceitApiResponse):
 
 
 class Brackets(FaceitApiResponse):
-    """
-    :param game:
-    :param matches:
-    :param name:
-    :param rounds:
-    :param status:
-    :type game: str
-    :type matches: list
-    :type name: str
-    :type rounds: list
-    :type status: str
-    """
+    
     def __init__(self,
                  game: str,
                  matches: list,
@@ -2190,22 +1288,7 @@ class Brackets(FaceitApiResponse):
 
 
 class BracketMatch(FaceitApiResponse):
-    """
-    :param faceit_url:
-    :param match_id:
-    :param position:
-    :param results:
-    :param round:
-    :param state:
-    :param teams:
-    :type faceit_url: str
-    :type match_id: str
-    :type position: int
-    :type results: dict
-    :type round: int
-    :type state: str
-    :type teams: dict
-    """
+    
     def __init__(self,
                  faceit_url: str,
                  match_id: str,
@@ -2226,24 +1309,7 @@ class BracketMatch(FaceitApiResponse):
 
 
 class Round(FaceitApiResponse):
-    """
-    :param best_of:
-    :param label:
-    :param matches:
-    :param round:
-    :param start_time:
-    :param starts_asap:
-    :param substitution_time:
-    :param substitutions_allowed:
-    :type best_of: int
-    :type label: str
-    :type matches: int
-    :type round: int
-    :type start_time: int
-    :type starts_asap: bool
-    :type substitution_time: int
-    :type substitutions_allowed: bool
-    """
+    
     def __init__(self,
                  best_of: int,
                  label: str,
@@ -2266,16 +1332,7 @@ class Round(FaceitApiResponse):
 
 
 class TournamentTeams(FaceitApiResponse):
-    """
-    :param checked_in:
-    :param finished:
-    :param joined:
-    :param started:
-    :type checked_in: list
-    :type finished: list
-    :type joined: list
-    :type started: list
-    """
+    
     def __init__(self,
                  checked_in: list,
                  finished: list,
@@ -2290,20 +1347,7 @@ class TournamentTeams(FaceitApiResponse):
 
 
 class TournamentTeam(FaceitApiResponse):
-    """
-    :param nickname:
-    :param skill_level:
-    :param subs_done:
-    :param team_id:
-    :param team_leader:
-    :param team_type:
-    :type nickname: str
-    :type skill_level: int
-    :type subs_done: int
-    :type team_id: str
-    :type team_leader: str
-    :type team_type: str
-    """
+    
     def __init__(self,
                  nickname: str,
                  skill_level: int,

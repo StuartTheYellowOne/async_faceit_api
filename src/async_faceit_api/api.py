@@ -1,6 +1,6 @@
 from typing import Tuple, Any
 from aiohttp import request
-from src.async_faceit_api.types import *
+from .types import *
 
 
 class FaceitAPI:

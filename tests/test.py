@@ -10,11 +10,12 @@ load_dotenv()
 
 
 async def test_championship(api: FaceitAPI):
-    game_id = "csgo"
+    game_id = Game.CS_GO
     championship_id = "3c5121c0-ac3a-4a99-9788-20ee262fca7f"
-    await api.championships(game_id)
+    championships = await api.championships(game_id)
+    for c in championships:
+        c.
     await api.championship(championship_id)
-    await api.championship_matches(championship_id)
     await api.championship_results(championship_id)
     await api.championship_subscriptions(championship_id)
 
@@ -121,16 +122,16 @@ async def test_tournament(api: FaceitAPI):
 async def test_task():
     api = FaceitAPI(os.getenv('faceit_api_key'))
     await test_championship(api)
-    await test_games(api)
-    await test_hub(api)
-    await test_leaderboards(api)
-    await test_match(api)
-    await test_organizer(api)
-    await test_player(api)
-    await test_ranking(api)
-    await test_search(api)
-    await test_teams(api)
-    await test_tournament(api)
+    # await test_games(api)
+    # await test_hub(api)
+    # await test_leaderboards(api)
+    # await test_match(api)
+    # await test_organizer(api)
+    # await test_player(api)
+    # await test_ranking(api)
+    # await test_search(api)
+    # await test_teams(api)
+    # await test_tournament(api)
 
 
 if __name__ == "__main__":

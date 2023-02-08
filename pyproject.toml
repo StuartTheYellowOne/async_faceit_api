@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "async_faceit_api"
-version = "0.0.1"
+version = "0.0.5"
 authors = [
   { name="Stuart", email="stuart.the.yellow.one@gmail.com" },
 ]
@@ -20,3 +20,4 @@ classifiers = [
 [project.urls]
 "Homepage" = "https://github.com/StuartTheYellowOne/async_faceit_api"
 "Bug Tracker" = "https://github.com/StuartTheYellowOne/async_faceit_api/issues"
+
