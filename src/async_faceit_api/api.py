@@ -17,11 +17,11 @@ class FaceitAPI:
         async with request(method, url, headers=self.__header) as response:
             return response.status, await response.json()
 
+
     @staticmethod
     async def __create_object(response: Tuple[int, Any], object_class=None) -> Any:
         status, json_response = response
         if not 200 <= status < 300:
-            print("error")
             return FaceitApiError(**json_response, status_code=status)
         if not (object_class is None):
             return object_class(**json_response)
@@ -217,8 +217,8 @@ class FaceitAPI:
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_object(retval, Player)
 
-    async def player_by_game_player_id(self, game: str, game_player_id: str) -> Player:
-        url = FaceitAPI.__BASE_URL.format(f'players?game={game}&game_player_id={game_player_id}')
+    async def player_by_game_player_id(self, game: Game, game_player_id: str) -> Player:
+        url = FaceitAPI.__BASE_URL.format(f'players?game={game.value}&game_player_id={game_player_id}')
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_object(retval, Player)
 
@@ -227,10 +227,10 @@ class FaceitAPI:
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_object(retval, Player)
 
-    async def player_history(self, player_id: str, game: str, from_: int = None, to: int = None, offset: int = 0,
+    async def player_history(self, player_id: str, game: Game, from_: int = None, to: int = None, offset: int = 0,
                              limit: int = 20) -> FromToCollection[PlayerMatch]:
         url = FaceitAPI.__BASE_URL.format(
-            f'players/{player_id}/history?game={game}&offset={offset}&limit={limit}')
+            f'players/{player_id}/history?game={game.value}&offset={offset}&limit={limit}')
         if from_ is not None:
             url += f'&from={from_}'
         if to is not None:
@@ -258,23 +258,27 @@ class FaceitAPI:
     # endregion
 
     # region Rankings
-    async def ranking(self, game: Game, region: str, country: str = "", offset: int = 0,
+    async def ranking(self, game: Game, region: Region, country: Country = None, offset: int = 0,
                       limit: int = 20) -> Collection[Rank]:
         url = FaceitAPI.__BASE_URL.format(
-            f'rankings/games/{game.value}/regions/{region}?country={country}&offset={offset}&limit={limit}')
+            f'rankings/games/{game.value}/regions/{region.value}?offset={offset}&limit={limit}')
+        if country is not None:
+            url += f'&country={country.value}'
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, Rank)
 
-    async def ranking_of_player(self, game: Game, region: str, player_id: str, country: str = "",
+    async def ranking_of_player(self, game: Game, region: Region, player_id: str, country: Country = None,
                                 limit: int = 20) -> RankCollection[Rank]:
         url = FaceitAPI.__BASE_URL.format(
-            f'rankings/games/{game.value}/regions/{region}/players/{player_id}?country={country}&limit={limit}')
+            f'rankings/games/{game.value}/regions/{region.value}/players/{player_id}?limit={limit}')
+        if country is not None:
+            url += f'&country={country.value}'
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, Rank, RankCollection)
     # endregion
 
     # region Search
-    async def search_championships(self, name: str, game: Game = None, region: str = None,
+    async def search_championships(self, name: str, game: Game = None, region: Region = None,
                                    type: MatchType = MatchType.ALL, offset: int = 0,
                                    limit: int = 20) -> Collection[ChampionshipSearchResult]:
         url = FaceitAPI.__BASE_URL.format(
@@ -282,17 +286,17 @@ class FaceitAPI:
         if game is not None:
             url += f'&game={game}'
         if region is not None:
-            url += f'&region={region}'
+            url += f'&region={region.value}'
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, ChampionshipSearchResult)
 
-    async def search_hubs(self, name: str, game: str = None, region: str = None, offset: int = 0,
+    async def search_hubs(self, name: str, game: Game = None, region: Region = None, offset: int = 0,
                           limit: int = 20) -> Collection[ChampionshipSearchResult]:
         url = FaceitAPI.__BASE_URL.format(f'search/hubs?name={name}&offset={offset}&limit={limit}')
         if game is not None:
-            url += f'&game={game}'
+            url += f'&game={game.value}'
         if region is not None:
-            url += f'&region={region}'
+            url += f'&region={region.value}'
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, ChampionshipSearchResult)
 
@@ -302,33 +306,33 @@ class FaceitAPI:
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, OrganizerSearchResult)
 
-    async def search_players(self, nickname: str, game: str = None, country: str = None, offset: int = 0,
+    async def search_players(self, nickname: str, game: Game = None, country: Country = None, offset: int = 0,
                              limit: int = 20) -> Collection[PlayerSearchResult]:
         url = FaceitAPI.__BASE_URL.format(f'search/players?nickname={nickname}&offset={offset}&limit={limit}')
         if game is not None:
-            url += f'&game={game}'
+            url += f'&game={game.value}'
         if country is not None:
-            url += f'&country={country}'
+            url += f'&country={country.value}'
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, PlayerSearchResult)
 
-    async def search_teams(self, nickname: str, game: str = None, offset: int = 0,
+    async def search_teams(self, nickname: str, game: Game = None, offset: int = 0,
                            limit: int = 20) -> Collection[TeamSearchResult]:
         url = FaceitAPI.__BASE_URL.format(f'search/teams?nickname={nickname}&offset={offset}&limit={limit}')
         if game is not None:
-            url += f'&game={game}'
+            url += f'&game={game.value}'
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, TeamSearchResult)
 
-    async def search_tournaments(self, name: str, game: str = None, region: str = None,
+    async def search_tournaments(self, name: str, game: Game = None, region: Region = None,
                                  type: MatchType = MatchType.ALL, offset: int = 0,
                                  limit: int = 20) -> Collection[TournamentSearchResult]:
         url = FaceitAPI.__BASE_URL.format(
             f'search/tournaments?name={name}&type={type.value}&offset={offset}&limit={limit}')
         if game is not None:
-            url += f'&game={game}'
+            url += f'&game={game.value}'
         if region is not None:
-            url += f'&region={region}'
+            url += f'&region={region.value}'
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, TournamentSearchResult)
     # endregion
@@ -352,12 +356,12 @@ class FaceitAPI:
     # endregion
 
     # region Tournaments
-    async def tournaments(self, game: str = None, region: str = None, offset: int = 0, limit: int = 20):
+    async def tournaments(self, game: Game = None, region: Region = None, offset: int = 0, limit: int = 20):
         url = FaceitAPI.__BASE_URL.format(f'tournaments?offset={offset}&limit={limit}')
         if game is not None:
-            url += f'&game={game}'
+            url += f'&game={game.value}'
         if region is not None:
-            url += f'&region={region}'
+            url += f'&region={region.value}'
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, Tournament)
 

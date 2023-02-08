@@ -5,7 +5,6 @@ class FaceitApiResponse:
     def __init__(self, success: bool = True, **kwargs):
         self.__success = success
         for key, value in kwargs.items():
-            print(f'WARNING unknown key value pair "{key}: {value}"')
             setattr(self, key, value)
 
     def __bool__(self):
