@@ -1,6 +1,7 @@
 from typing import Tuple, Any
 from aiohttp import request
-from .types import *
+from .types.enums import *
+from .types.dataclasses import *
 
 
 class FaceitAPI:
@@ -20,6 +21,7 @@ class FaceitAPI:
     async def __create_object(response: Tuple[int, Any], object_class=None) -> Any:
         status, json_response = response
         if not 200 <= status < 300:
+            print("error")
             return FaceitApiError(**json_response, status_code=status)
         if not (object_class is None):
             return object_class(**json_response)

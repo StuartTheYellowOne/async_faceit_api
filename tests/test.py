@@ -4,7 +4,7 @@ import asyncio
 from src.async_faceit_api import FaceitAPI
 from dotenv import load_dotenv
 
-from src.async_faceit_api.types import Game
+from src.async_faceit_api.types.enums import Game
 
 load_dotenv()
 
@@ -12,9 +12,7 @@ load_dotenv()
 async def test_championship(api: FaceitAPI):
     game_id = Game.CS_GO
     championship_id = "3c5121c0-ac3a-4a99-9788-20ee262fca7f"
-    championships = await api.championships(game_id)
-    for c in championships:
-        c.
+    champs = await api.championships(game_id)
     await api.championship(championship_id)
     await api.championship_results(championship_id)
     await api.championship_subscriptions(championship_id)
@@ -39,7 +37,7 @@ async def test_hub(api: FaceitAPI):
 
 async def test_leaderboards(api: FaceitAPI):
     hub_id = "bfbb0657-8694-4278-8007-a7dc58f544af"
-    championship_id = "3c5121c0-ac3a-4a99-9788-20ee262fca7f"  # '250fc68b-d8a0-4aae-b718-3dfd92b59104'
+    championship_id = "3c5121c0-ac3a-4a99-9788-20ee262fca7f"
     group = 0
     season = 0
     leaderboard_id = ""

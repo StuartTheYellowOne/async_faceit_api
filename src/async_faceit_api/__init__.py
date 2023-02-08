@@ -1,2 +1,2 @@
 from .api import FaceitAPI
-from . import types
+from .types import dataclasses, enums
