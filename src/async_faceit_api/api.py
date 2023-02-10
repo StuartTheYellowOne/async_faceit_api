@@ -16,7 +16,7 @@ class FaceitAPI:
     def __init__(self, api_token: str):
         self.__header = {
             'accept': 'application/json',
-            'Authorization': 'Bearer {}'.format(api_token)
+            'Authorization': f'Bearer {api_token}'
         }
 
     async def __make_request(self, method: str, url: str) -> Tuple[int, Any]:
@@ -29,7 +29,7 @@ class FaceitAPI:
         status, json_response = response
         if not 200 <= status < 300:
             return FaceitApiError(**json_response, status_code=status)
-        if not (object_class is None):
+        if object_class is not None:
             return object_class(**json_response)
         return json_response
 
@@ -42,14 +42,14 @@ class FaceitAPI:
         return collection_class(**json_response)
 
     # region Championships
-    async def championships(self, game: Game, type: MatchType = MatchType.ALL, offset: int = 0,
+    async def championships(self, game: Game, type_: MatchType = MatchType.ALL, offset: int = 0,
                             limit: int = 10) -> Collection[Championship]:
         """Retrieve all championships of a game
 
         :param game: The id of the game
         :type game: :class:`.Game`
-        :param type: Kind of matches to return. Can be all(default), upcoming, ongoing or past
-        :type type: :class:`.MatchType`, optional
+        :param type_: Kind of matches to return. Can be all(default), upcoming, ongoing or past
+        :type type_: :class:`.MatchType`, optional
         :param offset: The starting item position
         :type offset: int, optional
         :param limit: The number of items to return
@@ -58,7 +58,7 @@ class FaceitAPI:
         :rtype: :class:`.Collection[.Championship]`
         """
         url = FaceitAPI.__BASE_URL.format(
-            f'championships?game={game.value}&type={type.value}&offset={offset}&limit={limit}')
+            f'championships?game={game.value}&type={type_.value}&offset={offset}&limit={limit}')
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, Championship)
 
@@ -79,14 +79,14 @@ class FaceitAPI:
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_object(retval, Championship)
 
-    async def championship_matches(self, championship_id: str, type: MatchType = MatchType.ALL,
+    async def championship_matches(self, championship_id: str, type_: MatchType = MatchType.ALL,
                                    offset: int = 0, limit: int = 20) -> Collection[Match]:
         """Retrieve all matches of a championship
 
         :param championship_id: The id of the championship
         :type championship_id: str
-        :param type: Kind of matches to return. Can be all(default), upcoming, ongoing or past
-        :type type: :class:`.MatchType`, optional
+        :param type_: Kind of matches to return. Can be all(default), upcoming, ongoing or past
+        :type type_: :class:`.MatchType`, optional
         :param offset: The starting item position
         :type offset: int, optional
         :param limit: The number of items to return
@@ -95,7 +95,7 @@ class FaceitAPI:
         :rtype: :class:`.Collection[.Match]`
         """
         url = FaceitAPI.__BASE_URL.format(
-            f'championships/{championship_id}/matches?type={type.value}&offset={offset}&limit={limit}')
+            f'championships/{championship_id}/matches?type={type_.value}&offset={offset}&limit={limit}')
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, Match)
 
@@ -193,14 +193,14 @@ class FaceitAPI:
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_object(retval, Hub)
 
-    async def hub_matches(self, hub_id: str, type: MatchType = MatchType.ALL, offset: int = 0,
+    async def hub_matches(self, hub_id: str, type_: MatchType = MatchType.ALL, offset: int = 0,
                           limit: int = 20) -> Collection[Match]:
         """Retrieve all matches of a hub
 
         :param hub_id: The id of the hub
         :type hub_id: str
-        :param type: Kind of matches to return. Can be all(default), upcoming, ongoing or past
-        :type type: :class:`.MatchType`, optional
+        :param type_: Kind of matches to return. Can be all(default), upcoming, ongoing or past
+        :type type_: :class:`.MatchType`, optional
         :param offset: The starting item position
         :type offset: int, optional
         :param limit: The number of items to return
@@ -208,7 +208,7 @@ class FaceitAPI:
         :return: Matches list
         :rtype: :class:`.Collection[.Match]`
         """
-        url = FaceitAPI.__BASE_URL.format(f'hubs/{hub_id}/matches?type={type.value}&offset={offset}&limit={limit}')
+        url = FaceitAPI.__BASE_URL.format(f'hubs/{hub_id}/matches?type={type_.value}&offset={offset}&limit={limit}')
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, Match)
 
@@ -480,14 +480,14 @@ class FaceitAPI:
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, Hub)
 
-    async def organizer_tournaments(self, organizer_id: str, type: MatchType = MatchType.UPCOMING,
+    async def organizer_tournaments(self, organizer_id: str, type_: MatchType = MatchType.UPCOMING,
                                     offset: int = 0, limit: int = 20) -> Collection[Tournament]:
         """Retrieve all tournaments of an organizer
 
         :param organizer_id: The id of the organizer
         :type organizer_id: str
-        :param type: Kind of tournament. Can be upcoming(default) or past
-        :type type: :class:`.MatchType`, optional
+        :param type_: Kind of tournament. Can be upcoming(default) or past
+        :type type_: :class:`.MatchType`, optional
         :param offset: The starting item position
         :type offset: int, optional
         :param limit: The number of items to return
@@ -496,7 +496,7 @@ class FaceitAPI:
         :rtype: :class:`.Collection[.Tournament]`
         """
         url = FaceitAPI.__BASE_URL.format(
-            f'organizers/{organizer_id}/tournaments?type={type.value}&offset={offset}&limit={limit}')
+            f'organizers/{organizer_id}/tournaments?type={type_.value}&offset={offset}&limit={limit}')
         retval = await self.__make_request('GET', url)
         return await FaceitAPI.__create_collection(retval, Tournament)
     # endregion
@@ -563,11 +563,11 @@ class FaceitAPI:
         url = FaceitAPI.__BASE_URL.format(
             f'players/{player_id}/history?game={game.value}&offset={offset}&limit={limit}')
         if from_ is not None:
-            if type(from_) is datetime.datetime:
+            if isinstance(from_, datetime.datetime):
                 from_ = int(from_.timestamp())
             url += f'&from={from_}'
         if to is not None:
-            if type(to) is datetime.datetime:
+            if isinstance(to, datetime.datetime):
                 to = int(to.timestamp())
             url += f'&to={to}'
         retval = await self.__make_request('GET', url)
@@ -674,7 +674,7 @@ class FaceitAPI:
 
     # region Search
     async def search_championships(self, name: str, game: Game = None, region: Region = None,
-                                   type: MatchType = MatchType.ALL, offset: int = 0,
+                                   type_: MatchType = MatchType.ALL, offset: int = 0,
                                    limit: int = 20) -> Collection[ChampionshipSearchResult]:
         """Search for championships
 
@@ -684,8 +684,8 @@ class FaceitAPI:
         :type game: :class:`.Game`, optional
         :param region: A region of a game
         :type region: :class:`.Region`, optional
-        :param type: Kind of competitions to return
-        :type type: :class:`.MatchType`, optional
+        :param type_: Kind of competitions to return
+        :type type_: :class:`.MatchType`, optional
         :param offset: The starting item position
         :type offset: int, optional
         :param limit: The number of items to return
@@ -694,7 +694,7 @@ class FaceitAPI:
         :rtype: :class:`.Collection[.ChampionshipSearchResult]`
         """
         url = FaceitAPI.__BASE_URL.format(
-            f'search/championships?name={name}&type={type.value}&offset={offset}&limit={limit}')
+            f'search/championships?name={name}&type={type_.value}&offset={offset}&limit={limit}')
         if game is not None:
             url += f'&game={game}'
         if region is not None:
@@ -791,7 +791,7 @@ class FaceitAPI:
         return await FaceitAPI.__create_collection(retval, TeamSearchResult)
 
     async def search_tournaments(self, name: str, game: Game = None, region: Region = None,
-                                 type: MatchType = MatchType.ALL, offset: int = 0,
+                                 type_: MatchType = MatchType.ALL, offset: int = 0,
                                  limit: int = 20) -> Collection[TournamentSearchResult]:
         """Search for teams
 
@@ -801,8 +801,8 @@ class FaceitAPI:
         :type game: :class:`.Game`, optional
         :param region: A region of a game
         :type region: :class:`.Region`, optional
-        :param type: Kind of competitions to return
-        :type type: :class:`.MatchType`, optional
+        :param type_: Kind of competitions to return
+        :type type_: :class:`.MatchType`, optional
         :param offset: The starting item position
         :type offset: int, optional
         :param limit: The number of items to return
@@ -811,7 +811,7 @@ class FaceitAPI:
         :rtype: :class:`.Collection[.TournamentSearchResult]`
         """
         url = FaceitAPI.__BASE_URL.format(
-            f'search/tournaments?name={name}&type={type.value}&offset={offset}&limit={limit}')
+            f'search/tournaments?name={name}&type={type_.value}&offset={offset}&limit={limit}')
         if game is not None:
             url += f'&game={game.value}'
         if region is not None:

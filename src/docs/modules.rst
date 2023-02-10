@@ -1,5 +1,5 @@
-src
-===
+async_faceit_api
+================
 
 .. toctree::
    :maxdepth: 4

@@ -18,10 +18,10 @@ class Region(Enum):
     EU = 'EU'
     US = 'US'
     SEA = 'SEA'
-    Oceania = 'Oceania'
+    OCEANIA = 'Oceania'
     SA = 'SA'
-    
-    
+
+
 class Country(Enum):
     AFGHANISTAN = 'AF'
     ALAND_ISLANDS = 'AX'
@@ -203,11 +203,11 @@ class Country(Enum):
     PORTUGAL = 'PT'
     PUERTO_RICO = 'PR'
     QATAR = 'QA'
-    RÉUNION = 'RE'
+    REUNION = 'RE'
     ROMANIA = 'RO'
     RUSSIAN_FEDERATION = 'RU'
     RWANDA = 'RW'
-    SAINT_BARTHÉLEMY = 'BL'
+    SAINT_BARTHELEMY = 'BL'
     SAINT_HELENA_ASCENSION_AND_TRISTAN_DA_CUNHA = 'SH'
     SAINT_KITTS_AND_NEVIS = 'KN'
     SAINT_LUCIA = 'LC'
@@ -333,7 +333,7 @@ class Game(Enum):
     TF2 = 'tf2'
     CS_DZ = 'csdz'
     VALORANT = 'valorant'
-    Dota_2 = 'dota2'
+    DOTA_2 = 'dota2'
     TEMPERIA = 'temperia'
     HS_BATTLEGROUNDS = 'hearthstone-battlegrounds'
     FIFA22 = 'fifa22'

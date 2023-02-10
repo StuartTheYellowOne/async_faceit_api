@@ -1211,5 +1211,3 @@ class TournamentTeam(FaceitApiResponse):
         self.team_id = team_id
         self.team_leader = team_leader
         self.team_type = team_type
-
-
