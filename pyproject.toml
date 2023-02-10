@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "async_faceit_api"
-version = "0.0.7"
+version = "0.0.8"
 authors = [
   { name="Stuart", email="stuart.the.yellow.one@gmail.com" },
 ]

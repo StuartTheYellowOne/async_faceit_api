@@ -1,0 +1,29 @@
+src.types package
+=================
+
+Submodules
+----------
+
+src.types.dataclasses module
+----------------------------
+
+.. automodule:: src.types.dataclasses
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+src.types.enums module
+----------------------
+
+.. automodule:: src.types.enums
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: src.types
+   :members:
+   :undoc-members:
+   :show-inheritance:

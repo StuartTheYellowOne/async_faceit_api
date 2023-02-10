@@ -1,0 +1,29 @@
+async\_faceit\_api.types package
+================================
+
+Submodules
+----------
+
+async\_faceit\_api.types.dataclasses module
+-------------------------------------------
+
+.. automodule:: async_faceit_api.types.dataclasses
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+async\_faceit\_api.types.enums module
+-------------------------------------
+
+.. automodule:: async_faceit_api.types.enums
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: async_faceit_api.types
+   :members:
+   :undoc-members:
+   :show-inheritance:
