@@ -2,6 +2,8 @@
 
 Async wrapper for the faceit API for csgo.
 
+[Here are the docs](https://async-faceit-api.readthedocs.io/en/latest/async_faceit_api.html)
+
 ### Error Handling
 
 Note that the async api methods return an object of type FaceitApiError 
