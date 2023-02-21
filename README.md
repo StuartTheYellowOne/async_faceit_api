@@ -17,9 +17,9 @@ response and an error, you can easily use the object as a boolean expression:
 
 ### Getting started
 
-If you dont already got a loop in your programm you need to create one. 
+If you dont already have a loop in your programm you need to create one. 
 Here is a basic example which will search players by the username and
-prints out a dict witch the nicknames and player_ids: 
+prints out a dict with the nicknames and player_ids: 
 ```
 import asyncio
 from src.async_faceit_api import FaceitAPI
