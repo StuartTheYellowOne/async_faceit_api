@@ -9,6 +9,7 @@ authors = [
   { name="Stuart", email="stuart.the.yellow.one@gmail.com" },
 ]
 description = "Async wrapper for the faceit API for csgo"
+documentation = "https://async-faceit-api.readthedocs.io/en/latest/index.html"
 readme = "README.md"
 requires-python = ">=3.10"
 classifiers = [
