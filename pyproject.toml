@@ -12,6 +12,9 @@ description = "Async wrapper for the faceit API for csgo"
 documentation = "https://async-faceit-api.readthedocs.io/en/latest/index.html"
 readme = "README.md"
 requires-python = ">=3.10"
+dependencies = [
+  'aiohttp < 3.8.3',
+]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
