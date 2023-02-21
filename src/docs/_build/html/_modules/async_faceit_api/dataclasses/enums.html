@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>async_faceit_api.dataclasses.enums &mdash; Async Facit API  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/sphinx_highlight.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            Async Facit API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../modules.html">async_faceit_api</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../error_handling.html">Error Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../useful_links.html">Useful links</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Async Facit API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">async_faceit_api.dataclasses.enums</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for async_faceit_api.dataclasses.enums</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
+
+
+<div class="viewcode-block" id="Expansion"><a class="viewcode-back" href="../../../async_faceit_api.dataclasses.html#async_faceit_api.dataclasses.enums.Expansion">[docs]</a><span class="k">class</span> <span class="nc">Expansion</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">NONE</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">ORGANIZER</span> <span class="o">=</span> <span class="s1">&#39;organizer&#39;</span>
+    <span class="n">GAME</span> <span class="o">=</span> <span class="s1">&#39;game&#39;</span></div>
+
+
+<div class="viewcode-block" id="MatchType"><a class="viewcode-back" href="../../../async_faceit_api.dataclasses.html#async_faceit_api.dataclasses.enums.MatchType">[docs]</a><span class="k">class</span> <span class="nc">MatchType</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">ALL</span> <span class="o">=</span> <span class="s1">&#39;all&#39;</span>
+    <span class="n">UPCOMING</span> <span class="o">=</span> <span class="s1">&#39;upcoming&#39;</span>
+    <span class="n">ONGOING</span> <span class="o">=</span> <span class="s1">&#39;ongoing&#39;</span>
+    <span class="n">PAST</span> <span class="o">=</span> <span class="s1">&#39;past&#39;</span></div>
+
+
+<div class="viewcode-block" id="Region"><a class="viewcode-back" href="../../../async_faceit_api.dataclasses.html#async_faceit_api.dataclasses.enums.Region">[docs]</a><span class="k">class</span> <span class="nc">Region</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">EU</span> <span class="o">=</span> <span class="s1">&#39;EU&#39;</span>
+    <span class="n">US</span> <span class="o">=</span> <span class="s1">&#39;US&#39;</span>
+    <span class="n">SEA</span> <span class="o">=</span> <span class="s1">&#39;SEA&#39;</span>
+    <span class="n">OCEANIA</span> <span class="o">=</span> <span class="s1">&#39;Oceania&#39;</span>
+    <span class="n">SA</span> <span class="o">=</span> <span class="s1">&#39;SA&#39;</span></div>
+
+
+<div class="viewcode-block" id="Country"><a class="viewcode-back" href="../../../async_faceit_api.dataclasses.html#async_faceit_api.dataclasses.enums.Country">[docs]</a><span class="k">class</span> <span class="nc">Country</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">AFGHANISTAN</span> <span class="o">=</span> <span class="s1">&#39;AF&#39;</span>
+    <span class="n">ALAND_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;AX&#39;</span>
+    <span class="n">ALBANIA</span> <span class="o">=</span> <span class="s1">&#39;AL&#39;</span>
+    <span class="n">ALGERIA</span> <span class="o">=</span> <span class="s1">&#39;DZ&#39;</span>
+    <span class="n">AMERICAN_SAMOA</span> <span class="o">=</span> <span class="s1">&#39;AS&#39;</span>
+    <span class="n">ANDORRA</span> <span class="o">=</span> <span class="s1">&#39;AD&#39;</span>
+    <span class="n">ANGOLA</span> <span class="o">=</span> <span class="s1">&#39;AO&#39;</span>
+    <span class="n">ANGUILLA</span> <span class="o">=</span> <span class="s1">&#39;AI&#39;</span>
+    <span class="n">ANTARCTICA</span> <span class="o">=</span> <span class="s1">&#39;AQ&#39;</span>
+    <span class="n">ANTIGUA_AND_BARBUDA</span> <span class="o">=</span> <span class="s1">&#39;AG&#39;</span>
+    <span class="n">ARGENTINA</span> <span class="o">=</span> <span class="s1">&#39;AR&#39;</span>
+    <span class="n">ARMENIA</span> <span class="o">=</span> <span class="s1">&#39;AM&#39;</span>
+    <span class="n">ARUBA</span> <span class="o">=</span> <span class="s1">&#39;AW&#39;</span>
+    <span class="n">AUSTRALIA</span> <span class="o">=</span> <span class="s1">&#39;AU&#39;</span>
+    <span class="n">AUSTRIA</span> <span class="o">=</span> <span class="s1">&#39;AT&#39;</span>
+    <span class="n">AZERBAIJAN</span> <span class="o">=</span> <span class="s1">&#39;AZ&#39;</span>
+    <span class="n">BAHAMAS</span> <span class="o">=</span> <span class="s1">&#39;BS&#39;</span>
+    <span class="n">BAHRAIN</span> <span class="o">=</span> <span class="s1">&#39;BH&#39;</span>
+    <span class="n">BANGLADESH</span> <span class="o">=</span> <span class="s1">&#39;BD&#39;</span>
+    <span class="n">BARBADOS</span> <span class="o">=</span> <span class="s1">&#39;BB&#39;</span>
+    <span class="n">BELARUS</span> <span class="o">=</span> <span class="s1">&#39;BY&#39;</span>
+    <span class="n">BELGIUM</span> <span class="o">=</span> <span class="s1">&#39;BE&#39;</span>
+    <span class="n">BELIZE</span> <span class="o">=</span> <span class="s1">&#39;BZ&#39;</span>
+    <span class="n">BENIN</span> <span class="o">=</span> <span class="s1">&#39;BJ&#39;</span>
+    <span class="n">BERMUDA</span> <span class="o">=</span> <span class="s1">&#39;BM&#39;</span>
+    <span class="n">BHUTAN</span> <span class="o">=</span> <span class="s1">&#39;BT&#39;</span>
+    <span class="n">BOLIVIA</span> <span class="o">=</span> <span class="s1">&#39;BO&#39;</span>
+    <span class="n">BONAIRE</span> <span class="o">=</span> <span class="s1">&#39;BQ&#39;</span>
+    <span class="n">BOSNIA_AND_HERZEGOVINA</span> <span class="o">=</span> <span class="s1">&#39;BA&#39;</span>
+    <span class="n">BOTSWANA</span> <span class="o">=</span> <span class="s1">&#39;BW&#39;</span>
+    <span class="n">BOUVET_ISLAND</span> <span class="o">=</span> <span class="s1">&#39;BV&#39;</span>
+    <span class="n">BRAZIL</span> <span class="o">=</span> <span class="s1">&#39;BR&#39;</span>
+    <span class="n">BRITISH_INDIAN_OCEAN_TERRITORY</span> <span class="o">=</span> <span class="s1">&#39;IO&#39;</span>
+    <span class="n">BRUNEI_DARUSSALAM</span> <span class="o">=</span> <span class="s1">&#39;BN&#39;</span>
+    <span class="n">BULGARIA</span> <span class="o">=</span> <span class="s1">&#39;BG&#39;</span>
+    <span class="n">BURKINA_FASO</span> <span class="o">=</span> <span class="s1">&#39;BF&#39;</span>
+    <span class="n">BURUNDI</span> <span class="o">=</span> <span class="s1">&#39;BI&#39;</span>
+    <span class="n">CAMBODIA</span> <span class="o">=</span> <span class="s1">&#39;KH&#39;</span>
+    <span class="n">CAMEROON</span> <span class="o">=</span> <span class="s1">&#39;CM&#39;</span>
+    <span class="n">CANADA</span> <span class="o">=</span> <span class="s1">&#39;CA&#39;</span>
+    <span class="n">CABO_VERDE</span> <span class="o">=</span> <span class="s1">&#39;CV&#39;</span>
+    <span class="n">CAYMAN_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;KY&#39;</span>
+    <span class="n">CENTRAL_AFRICAN_REPUBLIC</span> <span class="o">=</span> <span class="s1">&#39;CF&#39;</span>
+    <span class="n">CHAD</span> <span class="o">=</span> <span class="s1">&#39;TD&#39;</span>
+    <span class="n">CHILE</span> <span class="o">=</span> <span class="s1">&#39;CL&#39;</span>
+    <span class="n">CHINA</span> <span class="o">=</span> <span class="s1">&#39;CN&#39;</span>
+    <span class="n">CHRISTMAS_ISLAND</span> <span class="o">=</span> <span class="s1">&#39;CX&#39;</span>
+    <span class="n">COCOS_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;CC&#39;</span>
+    <span class="n">COLOMBIA</span> <span class="o">=</span> <span class="s1">&#39;CO&#39;</span>
+    <span class="n">COMOROS</span> <span class="o">=</span> <span class="s1">&#39;KM&#39;</span>
+    <span class="n">CONGO</span> <span class="o">=</span> <span class="s1">&#39;CG&#39;</span>
+    <span class="n">DEMOCRATIC_REPUBLIC_OF_THE_CONGO</span> <span class="o">=</span> <span class="s1">&#39;CD&#39;</span>
+    <span class="n">COOK_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;CK&#39;</span>
+    <span class="n">COSTA_RICA</span> <span class="o">=</span> <span class="s1">&#39;CR&#39;</span>
+    <span class="n">COTE_D_IVOIRE</span> <span class="o">=</span> <span class="s1">&#39;CI&#39;</span>
+    <span class="n">CROATIA</span> <span class="o">=</span> <span class="s1">&#39;HR&#39;</span>
+    <span class="n">CUBA</span> <span class="o">=</span> <span class="s1">&#39;CU&#39;</span>
+    <span class="n">CURACAO</span> <span class="o">=</span> <span class="s1">&#39;CW&#39;</span>
+    <span class="n">CYPRUS</span> <span class="o">=</span> <span class="s1">&#39;CY&#39;</span>
+    <span class="n">CZECH_REPUBLIC</span> <span class="o">=</span> <span class="s1">&#39;CZ&#39;</span>
+    <span class="n">DENMARK</span> <span class="o">=</span> <span class="s1">&#39;DK&#39;</span>
+    <span class="n">DJIBOUTI</span> <span class="o">=</span> <span class="s1">&#39;DJ&#39;</span>
+    <span class="n">DOMINICA</span> <span class="o">=</span> <span class="s1">&#39;DM&#39;</span>
+    <span class="n">DOMINICAN_REPUBLIC</span> <span class="o">=</span> <span class="s1">&#39;DO&#39;</span>
+    <span class="n">ECUADOR</span> <span class="o">=</span> <span class="s1">&#39;EC&#39;</span>
+    <span class="n">EGYPT</span> <span class="o">=</span> <span class="s1">&#39;EG&#39;</span>
+    <span class="n">EL_SALVADOR</span> <span class="o">=</span> <span class="s1">&#39;SV&#39;</span>
+    <span class="n">EQUATORIAL_GUINEA</span> <span class="o">=</span> <span class="s1">&#39;GQ&#39;</span>
+    <span class="n">ERITREA</span> <span class="o">=</span> <span class="s1">&#39;ER&#39;</span>
+    <span class="n">ESTONIA</span> <span class="o">=</span> <span class="s1">&#39;EE&#39;</span>
+    <span class="n">ETHIOPIA</span> <span class="o">=</span> <span class="s1">&#39;ET&#39;</span>
+    <span class="n">FALKLAND_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;FK&#39;</span>
+    <span class="n">FAROE_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;FO&#39;</span>
+    <span class="n">FIJI</span> <span class="o">=</span> <span class="s1">&#39;FJ&#39;</span>
+    <span class="n">FINLAND</span> <span class="o">=</span> <span class="s1">&#39;FI&#39;</span>
+    <span class="n">FRANCE</span> <span class="o">=</span> <span class="s1">&#39;FR&#39;</span>
+    <span class="n">FRENCH_GUIANA</span> <span class="o">=</span> <span class="s1">&#39;GF&#39;</span>
+    <span class="n">FRENCH_POLYNESIA</span> <span class="o">=</span> <span class="s1">&#39;PF&#39;</span>
+    <span class="n">FRENCH_SOUTHERN_TERRITORIES</span> <span class="o">=</span> <span class="s1">&#39;TF&#39;</span>
+    <span class="n">GABON</span> <span class="o">=</span> <span class="s1">&#39;GA&#39;</span>
+    <span class="n">GAMBIA</span> <span class="o">=</span> <span class="s1">&#39;GM&#39;</span>
+    <span class="n">GEORGIA</span> <span class="o">=</span> <span class="s1">&#39;GE&#39;</span>
+    <span class="n">GERMANY</span> <span class="o">=</span> <span class="s1">&#39;DE&#39;</span>
+    <span class="n">GHANA</span> <span class="o">=</span> <span class="s1">&#39;GH&#39;</span>
+    <span class="n">GIBRALTAR</span> <span class="o">=</span> <span class="s1">&#39;GI&#39;</span>
+    <span class="n">GREECE</span> <span class="o">=</span> <span class="s1">&#39;GR&#39;</span>
+    <span class="n">GREENLAND</span> <span class="o">=</span> <span class="s1">&#39;GL&#39;</span>
+    <span class="n">GRENADA</span> <span class="o">=</span> <span class="s1">&#39;GD&#39;</span>
+    <span class="n">GUADELOUPE</span> <span class="o">=</span> <span class="s1">&#39;GP&#39;</span>
+    <span class="n">GUAM</span> <span class="o">=</span> <span class="s1">&#39;GU&#39;</span>
+    <span class="n">GUATEMALA</span> <span class="o">=</span> <span class="s1">&#39;GT&#39;</span>
+    <span class="n">GUERNSEY</span> <span class="o">=</span> <span class="s1">&#39;GG&#39;</span>
+    <span class="n">GUINEA</span> <span class="o">=</span> <span class="s1">&#39;GN&#39;</span>
+    <span class="n">GUINEA_BISSAU</span> <span class="o">=</span> <span class="s1">&#39;GW&#39;</span>
+    <span class="n">GUYANA</span> <span class="o">=</span> <span class="s1">&#39;GY&#39;</span>
+    <span class="n">HAITI</span> <span class="o">=</span> <span class="s1">&#39;HT&#39;</span>
+    <span class="n">HEARD_ISLAND_AND_MCDONALD_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;HM&#39;</span>
+    <span class="n">HOLY_SEE</span> <span class="o">=</span> <span class="s1">&#39;VA&#39;</span>
+    <span class="n">HONDURAS</span> <span class="o">=</span> <span class="s1">&#39;HN&#39;</span>
+    <span class="n">HONG_KONG</span> <span class="o">=</span> <span class="s1">&#39;HK&#39;</span>
+    <span class="n">HUNGARY</span> <span class="o">=</span> <span class="s1">&#39;HU&#39;</span>
+    <span class="n">ICELAND</span> <span class="o">=</span> <span class="s1">&#39;IS&#39;</span>
+    <span class="n">INDIA</span> <span class="o">=</span> <span class="s1">&#39;IN&#39;</span>
+    <span class="n">INDONESIA</span> <span class="o">=</span> <span class="s1">&#39;ID&#39;</span>
+    <span class="n">IRAN</span> <span class="o">=</span> <span class="s1">&#39;IR&#39;</span>
+    <span class="n">IRAQ</span> <span class="o">=</span> <span class="s1">&#39;IQ&#39;</span>
+    <span class="n">IRELAND</span> <span class="o">=</span> <span class="s1">&#39;IE&#39;</span>
+    <span class="n">ISLE_OF_MAN</span> <span class="o">=</span> <span class="s1">&#39;IM&#39;</span>
+    <span class="n">ISRAEL</span> <span class="o">=</span> <span class="s1">&#39;IL&#39;</span>
+    <span class="n">ITALY</span> <span class="o">=</span> <span class="s1">&#39;IT&#39;</span>
+    <span class="n">JAMAICA</span> <span class="o">=</span> <span class="s1">&#39;JM&#39;</span>
+    <span class="n">JAPAN</span> <span class="o">=</span> <span class="s1">&#39;JP&#39;</span>
+    <span class="n">JERSEY</span> <span class="o">=</span> <span class="s1">&#39;JE&#39;</span>
+    <span class="n">JORDAN</span> <span class="o">=</span> <span class="s1">&#39;JO&#39;</span>
+    <span class="n">KAZAKHSTAN</span> <span class="o">=</span> <span class="s1">&#39;KZ&#39;</span>
+    <span class="n">KENYA</span> <span class="o">=</span> <span class="s1">&#39;KE&#39;</span>
+    <span class="n">KIRIBATI</span> <span class="o">=</span> <span class="s1">&#39;KI&#39;</span>
+    <span class="n">DEMOCRATIC_PEOPLES_REPUBLIC_OF_KOREA</span> <span class="o">=</span> <span class="s1">&#39;KP&#39;</span>
+    <span class="n">REPUBLIC_OF_KOREA</span> <span class="o">=</span> <span class="s1">&#39;KR&#39;</span>
+    <span class="n">KUWAIT</span> <span class="o">=</span> <span class="s1">&#39;KW&#39;</span>
+    <span class="n">KYRGYZSTAN</span> <span class="o">=</span> <span class="s1">&#39;KG&#39;</span>
+    <span class="n">LAO_PEOPLES_DEMOCRATIC_REPUBLIC</span> <span class="o">=</span> <span class="s1">&#39;LA&#39;</span>
+    <span class="n">LATVIA</span> <span class="o">=</span> <span class="s1">&#39;LV&#39;</span>
+    <span class="n">LEBANON</span> <span class="o">=</span> <span class="s1">&#39;LB&#39;</span>
+    <span class="n">LESOTHO</span> <span class="o">=</span> <span class="s1">&#39;LS&#39;</span>
+    <span class="n">LIBERIA</span> <span class="o">=</span> <span class="s1">&#39;LR&#39;</span>
+    <span class="n">LIBYA</span> <span class="o">=</span> <span class="s1">&#39;LY&#39;</span>
+    <span class="n">LIECHTENSTEIN</span> <span class="o">=</span> <span class="s1">&#39;LI&#39;</span>
+    <span class="n">LITHUANIA</span> <span class="o">=</span> <span class="s1">&#39;LT&#39;</span>
+    <span class="n">LUXEMBOURG</span> <span class="o">=</span> <span class="s1">&#39;LU&#39;</span>
+    <span class="n">MACAO</span> <span class="o">=</span> <span class="s1">&#39;MO&#39;</span>
+    <span class="n">MACEDONIA</span> <span class="o">=</span> <span class="s1">&#39;MK&#39;</span>
+    <span class="n">MADAGASCAR</span> <span class="o">=</span> <span class="s1">&#39;MG&#39;</span>
+    <span class="n">MALAWI</span> <span class="o">=</span> <span class="s1">&#39;MW&#39;</span>
+    <span class="n">MALAYSIA</span> <span class="o">=</span> <span class="s1">&#39;MY&#39;</span>
+    <span class="n">MALDIVES</span> <span class="o">=</span> <span class="s1">&#39;MV&#39;</span>
+    <span class="n">MALI</span> <span class="o">=</span> <span class="s1">&#39;ML&#39;</span>
+    <span class="n">MALTA</span> <span class="o">=</span> <span class="s1">&#39;MT&#39;</span>
+    <span class="n">MARSHALL_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;MH&#39;</span>
+    <span class="n">MARTINIQUE</span> <span class="o">=</span> <span class="s1">&#39;MQ&#39;</span>
+    <span class="n">MAURITANIA</span> <span class="o">=</span> <span class="s1">&#39;MR&#39;</span>
+    <span class="n">MAURITIUS</span> <span class="o">=</span> <span class="s1">&#39;MU&#39;</span>
+    <span class="n">MAYOTTE</span> <span class="o">=</span> <span class="s1">&#39;YT&#39;</span>
+    <span class="n">MEXICO</span> <span class="o">=</span> <span class="s1">&#39;MX&#39;</span>
+    <span class="n">MICRONESIA</span> <span class="o">=</span> <span class="s1">&#39;FM&#39;</span>
+    <span class="n">MOLDOVA</span> <span class="o">=</span> <span class="s1">&#39;MD&#39;</span>
+    <span class="n">MONACO</span> <span class="o">=</span> <span class="s1">&#39;MC&#39;</span>
+    <span class="n">MONGOLIA</span> <span class="o">=</span> <span class="s1">&#39;MN&#39;</span>
+    <span class="n">MONTENEGRO</span> <span class="o">=</span> <span class="s1">&#39;ME&#39;</span>
+    <span class="n">MONTSERRAT</span> <span class="o">=</span> <span class="s1">&#39;MS&#39;</span>
+    <span class="n">MOROCCO</span> <span class="o">=</span> <span class="s1">&#39;MA&#39;</span>
+    <span class="n">MOZAMBIQUE</span> <span class="o">=</span> <span class="s1">&#39;MZ&#39;</span>
+    <span class="n">MYANMAR</span> <span class="o">=</span> <span class="s1">&#39;MM&#39;</span>
+    <span class="n">NAMIBIA</span> <span class="o">=</span> <span class="s1">&#39;NA&#39;</span>
+    <span class="n">NAURU</span> <span class="o">=</span> <span class="s1">&#39;NR&#39;</span>
+    <span class="n">NEPAL</span> <span class="o">=</span> <span class="s1">&#39;NP&#39;</span>
+    <span class="n">NETHERLANDS</span> <span class="o">=</span> <span class="s1">&#39;NL&#39;</span>
+    <span class="n">NEW_CALEDONIA</span> <span class="o">=</span> <span class="s1">&#39;NC&#39;</span>
+    <span class="n">NEW_ZEALAND</span> <span class="o">=</span> <span class="s1">&#39;NZ&#39;</span>
+    <span class="n">NICARAGUA</span> <span class="o">=</span> <span class="s1">&#39;NI&#39;</span>
+    <span class="n">NIGER</span> <span class="o">=</span> <span class="s1">&#39;NE&#39;</span>
+    <span class="n">NIGERIA</span> <span class="o">=</span> <span class="s1">&#39;NG&#39;</span>
+    <span class="n">NIUE</span> <span class="o">=</span> <span class="s1">&#39;NU&#39;</span>
+    <span class="n">NORFOLK_ISLAND</span> <span class="o">=</span> <span class="s1">&#39;NF&#39;</span>
+    <span class="n">NORTHERN_MARIANA_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;MP&#39;</span>
+    <span class="n">NORWAY</span> <span class="o">=</span> <span class="s1">&#39;NO&#39;</span>
+    <span class="n">OMAN</span> <span class="o">=</span> <span class="s1">&#39;OM&#39;</span>
+    <span class="n">PAKISTAN</span> <span class="o">=</span> <span class="s1">&#39;PK&#39;</span>
+    <span class="n">PALAU</span> <span class="o">=</span> <span class="s1">&#39;PW&#39;</span>
+    <span class="n">STATE_OF_PALESTINE</span> <span class="o">=</span> <span class="s1">&#39;PS&#39;</span>
+    <span class="n">PANAMA</span> <span class="o">=</span> <span class="s1">&#39;PA&#39;</span>
+    <span class="n">PAPUA_NEW_GUINEA</span> <span class="o">=</span> <span class="s1">&#39;PG&#39;</span>
+    <span class="n">PARAGUAY</span> <span class="o">=</span> <span class="s1">&#39;PY&#39;</span>
+    <span class="n">PERU</span> <span class="o">=</span> <span class="s1">&#39;PE&#39;</span>
+    <span class="n">PHILIPPINES</span> <span class="o">=</span> <span class="s1">&#39;PH&#39;</span>
+    <span class="n">PITCAIRN</span> <span class="o">=</span> <span class="s1">&#39;PN&#39;</span>
+    <span class="n">POLAND</span> <span class="o">=</span> <span class="s1">&#39;PL&#39;</span>
+    <span class="n">PORTUGAL</span> <span class="o">=</span> <span class="s1">&#39;PT&#39;</span>
+    <span class="n">PUERTO_RICO</span> <span class="o">=</span> <span class="s1">&#39;PR&#39;</span>
+    <span class="n">QATAR</span> <span class="o">=</span> <span class="s1">&#39;QA&#39;</span>
+    <span class="n">REUNION</span> <span class="o">=</span> <span class="s1">&#39;RE&#39;</span>
+    <span class="n">ROMANIA</span> <span class="o">=</span> <span class="s1">&#39;RO&#39;</span>
+    <span class="n">RUSSIAN_FEDERATION</span> <span class="o">=</span> <span class="s1">&#39;RU&#39;</span>
+    <span class="n">RWANDA</span> <span class="o">=</span> <span class="s1">&#39;RW&#39;</span>
+    <span class="n">SAINT_BARTHELEMY</span> <span class="o">=</span> <span class="s1">&#39;BL&#39;</span>
+    <span class="n">SAINT_HELENA_ASCENSION_AND_TRISTAN_DA_CUNHA</span> <span class="o">=</span> <span class="s1">&#39;SH&#39;</span>
+    <span class="n">SAINT_KITTS_AND_NEVIS</span> <span class="o">=</span> <span class="s1">&#39;KN&#39;</span>
+    <span class="n">SAINT_LUCIA</span> <span class="o">=</span> <span class="s1">&#39;LC&#39;</span>
+    <span class="n">SAINT_MARTIN_FENCH</span> <span class="o">=</span> <span class="s1">&#39;MF&#39;</span>
+    <span class="n">SAINT_PIERRE_AND_MIQUELON</span> <span class="o">=</span> <span class="s1">&#39;PM&#39;</span>
+    <span class="n">SAINT_VINCENT_AND_THE_GRENADINES</span> <span class="o">=</span> <span class="s1">&#39;VC&#39;</span>
+    <span class="n">SAMOA</span> <span class="o">=</span> <span class="s1">&#39;WS&#39;</span>
+    <span class="n">SAN_MARINO</span> <span class="o">=</span> <span class="s1">&#39;SM&#39;</span>
+    <span class="n">SAO_TOME_AND_PRINCIPE</span> <span class="o">=</span> <span class="s1">&#39;ST&#39;</span>
+    <span class="n">SAUDI_ARABIA</span> <span class="o">=</span> <span class="s1">&#39;SA&#39;</span>
+    <span class="n">SENEGAL</span> <span class="o">=</span> <span class="s1">&#39;SN&#39;</span>
+    <span class="n">SERBIA</span> <span class="o">=</span> <span class="s1">&#39;RS&#39;</span>
+    <span class="n">SEYCHELLES</span> <span class="o">=</span> <span class="s1">&#39;SC&#39;</span>
+    <span class="n">SIERRA_LEONE</span> <span class="o">=</span> <span class="s1">&#39;SL&#39;</span>
+    <span class="n">SINGAPORE</span> <span class="o">=</span> <span class="s1">&#39;SG&#39;</span>
+    <span class="n">SINT_MAARTEN_DUTCH</span> <span class="o">=</span> <span class="s1">&#39;SX&#39;</span>
+    <span class="n">SLOVAKIA</span> <span class="o">=</span> <span class="s1">&#39;SK&#39;</span>
+    <span class="n">SLOVENIA</span> <span class="o">=</span> <span class="s1">&#39;SI&#39;</span>
+    <span class="n">SOLOMON_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;SB&#39;</span>
+    <span class="n">SOMALIA</span> <span class="o">=</span> <span class="s1">&#39;SO&#39;</span>
+    <span class="n">SOUTH_AFRICA</span> <span class="o">=</span> <span class="s1">&#39;ZA&#39;</span>
+    <span class="n">SOUTH_GEORGIA_AND_THE_SOUTH_SANDWICH_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;GS&#39;</span>
+    <span class="n">SOUTH_SUDAN</span> <span class="o">=</span> <span class="s1">&#39;SS&#39;</span>
+    <span class="n">SPAIN</span> <span class="o">=</span> <span class="s1">&#39;ES&#39;</span>
+    <span class="n">SRI_LANKA</span> <span class="o">=</span> <span class="s1">&#39;LK&#39;</span>
+    <span class="n">SUDAN</span> <span class="o">=</span> <span class="s1">&#39;SD&#39;</span>
+    <span class="n">SURINAME</span> <span class="o">=</span> <span class="s1">&#39;SR&#39;</span>
+    <span class="n">SVALBARD_AND_JAN_MAYEN</span> <span class="o">=</span> <span class="s1">&#39;SJ&#39;</span>
+    <span class="n">SWAZILAND</span> <span class="o">=</span> <span class="s1">&#39;SZ&#39;</span>
+    <span class="n">SWEDEN</span> <span class="o">=</span> <span class="s1">&#39;SE&#39;</span>
+    <span class="n">SWITZERLAND</span> <span class="o">=</span> <span class="s1">&#39;CH&#39;</span>
+    <span class="n">SYRIAN_ARAB_REPUBLIC</span> <span class="o">=</span> <span class="s1">&#39;SY&#39;</span>
+    <span class="n">TAIWAN</span> <span class="o">=</span> <span class="s1">&#39;TW&#39;</span>
+    <span class="n">TAJIKISTAN</span> <span class="o">=</span> <span class="s1">&#39;TJ&#39;</span>
+    <span class="n">TANZANIA</span> <span class="o">=</span> <span class="s1">&#39;TZ&#39;</span>
+    <span class="n">THAILAND</span> <span class="o">=</span> <span class="s1">&#39;TH&#39;</span>
+    <span class="n">TIMOR_LESTE</span> <span class="o">=</span> <span class="s1">&#39;TL&#39;</span>
+    <span class="n">TOGO</span> <span class="o">=</span> <span class="s1">&#39;TG&#39;</span>
+    <span class="n">TOKELAU</span> <span class="o">=</span> <span class="s1">&#39;TK&#39;</span>
+    <span class="n">TONGA</span> <span class="o">=</span> <span class="s1">&#39;TO&#39;</span>
+    <span class="n">TRINIDAD_AND_TOBAGO</span> <span class="o">=</span> <span class="s1">&#39;TT&#39;</span>
+    <span class="n">TUNISIA</span> <span class="o">=</span> <span class="s1">&#39;TN&#39;</span>
+    <span class="n">TURKEY</span> <span class="o">=</span> <span class="s1">&#39;TR&#39;</span>
+    <span class="n">TURKMENISTAN</span> <span class="o">=</span> <span class="s1">&#39;TM&#39;</span>
+    <span class="n">TURKS_AND_CAICOS_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;TC&#39;</span>
+    <span class="n">TUVALU</span> <span class="o">=</span> <span class="s1">&#39;TV&#39;</span>
+    <span class="n">UGANDA</span> <span class="o">=</span> <span class="s1">&#39;UG&#39;</span>
+    <span class="n">UKRAINE</span> <span class="o">=</span> <span class="s1">&#39;UA&#39;</span>
+    <span class="n">UNITED_ARAB_EMIRATES</span> <span class="o">=</span> <span class="s1">&#39;AE&#39;</span>
+    <span class="n">UNITED_KINGDOM_OF_GREAT_BRITAIN_AND_NORTHERN_IRELAND</span> <span class="o">=</span> <span class="s1">&#39;GB&#39;</span>
+    <span class="n">UNITED_STATES_OF_AMERICA</span> <span class="o">=</span> <span class="s1">&#39;US&#39;</span>
+    <span class="n">UNITED_STATES_MINOR_OUTLYING_ISLANDS</span> <span class="o">=</span> <span class="s1">&#39;UM&#39;</span>
+    <span class="n">URUGUAY</span> <span class="o">=</span> <span class="s1">&#39;UY&#39;</span>
+    <span class="n">UZBEKISTAN</span> <span class="o">=</span> <span class="s1">&#39;UZ&#39;</span>
+    <span class="n">VANUATU</span> <span class="o">=</span> <span class="s1">&#39;VU&#39;</span>
+    <span class="n">VENEZUELA</span> <span class="o">=</span> <span class="s1">&#39;VE&#39;</span>
+    <span class="n">VIET_NAM</span> <span class="o">=</span> <span class="s1">&#39;VN&#39;</span>
+    <span class="n">VIRGIN_ISLANDS_BRITISH</span> <span class="o">=</span> <span class="s1">&#39;VG&#39;</span>
+    <span class="n">VIRGIN_ISLANDS_US</span> <span class="o">=</span> <span class="s1">&#39;VI&#39;</span>
+    <span class="n">WALLIS_AND_FUTUNA</span> <span class="o">=</span> <span class="s1">&#39;WF&#39;</span>
+    <span class="n">WESTERN_SAHARA</span> <span class="o">=</span> <span class="s1">&#39;EH&#39;</span>
+    <span class="n">YEMEN</span> <span class="o">=</span> <span class="s1">&#39;YE&#39;</span>
+    <span class="n">ZAMBIA</span> <span class="o">=</span> <span class="s1">&#39;ZM&#39;</span>
+    <span class="n">ZIMBABWE</span> <span class="o">=</span> <span class="s1">&#39;ZW&#39;</span></div>
+
+
+<div class="viewcode-block" id="Game"><a class="viewcode-back" href="../../../async_faceit_api.dataclasses.html#async_faceit_api.dataclasses.enums.Game">[docs]</a><span class="k">class</span> <span class="nc">Game</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="n">RL_XBOX_PC</span> <span class="o">=</span> <span class="s1">&#39;rl_XBOX_PC&#39;</span>
+    <span class="n">WOT_XBOX</span> <span class="o">=</span> <span class="s1">&#39;wot_xbox&#39;</span>
+    <span class="n">WOT_NA</span> <span class="o">=</span> <span class="s1">&#39;wot_NA&#39;</span>
+    <span class="n">WOT_RU</span> <span class="o">=</span> <span class="s1">&#39;wot_RU&#39;</span>
+    <span class="n">WOT_EU</span> <span class="o">=</span> <span class="s1">&#39;wot_EU&#39;</span>
+    <span class="n">SMITE_XBOX</span> <span class="o">=</span> <span class="s1">&#39;smite_xbox&#39;</span>
+    <span class="n">SMITE</span> <span class="o">=</span> <span class="s1">&#39;smite&#39;</span>
+    <span class="n">DIRTY_BOMB</span> <span class="o">=</span> <span class="s1">&#39;dirtybomb&#39;</span>
+    <span class="n">NHL_20_XBOX</span> <span class="o">=</span> <span class="s1">&#39;nhl_20_xbox&#39;</span>
+    <span class="n">NHL_19_XBOX</span> <span class="o">=</span> <span class="s1">&#39;nhl_19_XBOX&#39;</span>
+    <span class="n">NHL_18_XBOX</span> <span class="o">=</span> <span class="s1">&#39;nhl_18_XBOX&#39;</span>
+    <span class="n">NHL_20_PS4</span> <span class="o">=</span> <span class="s1">&#39;nhl_20_ps4&#39;</span>
+    <span class="n">NHL_19_PS4</span> <span class="o">=</span> <span class="s1">&#39;nhl_19_PS4&#39;</span>
+    <span class="n">NHL_18_PS4</span> <span class="o">=</span> <span class="s1">&#39;nhl_18_PS4&#39;</span>
+    <span class="n">NHL_19</span> <span class="o">=</span> <span class="s1">&#39;nhl_19&#39;</span>
+    <span class="n">NHL_20</span> <span class="o">=</span> <span class="s1">&#39;nhl_20_parent&#39;</span>
+    <span class="n">APEX</span> <span class="o">=</span> <span class="s1">&#39;apex&#39;</span>
+    <span class="n">MINION_MASTERS</span> <span class="o">=</span> <span class="s1">&#39;minion_masters&#39;</span>
+    <span class="n">HALO_3</span> <span class="o">=</span> <span class="s1">&#39;halo_3&#39;</span>
+    <span class="n">HALO_5_XBOX</span> <span class="o">=</span> <span class="s1">&#39;halo_5&#39;</span>
+    <span class="n">HALO_INFINITE</span> <span class="o">=</span> <span class="s1">&#39;halo_infinite&#39;</span>
+    <span class="n">HALO_MCC</span> <span class="o">=</span> <span class="s1">&#39;halo_mcc&#39;</span>
+    <span class="n">RAINBOW6S_PS4</span> <span class="o">=</span> <span class="s1">&#39;gs_rainbow_6_ps4&#39;</span>
+    <span class="n">RAINBOW6S_XBOX</span> <span class="o">=</span> <span class="s1">&#39;gs_rainbow_6_xbox&#39;</span>
+    <span class="n">RAINBOW6S_PC</span> <span class="o">=</span> <span class="s1">&#39;gs_rainbow_6&#39;</span>
+    <span class="n">RAINBOW6S</span> <span class="o">=</span> <span class="s1">&#39;rainbow_6&#39;</span>
+    <span class="n">WARFACE_EU</span> <span class="o">=</span> <span class="s1">&#39;warface_eu&#39;</span>
+    <span class="n">WARFACE_NA</span> <span class="o">=</span> <span class="s1">&#39;warface_na&#39;</span>
+    <span class="n">WARFACE_ALPHA</span> <span class="o">=</span> <span class="s1">&#39;warface_alpha&#39;</span>
+    <span class="n">WARFACE_PARENT</span> <span class="o">=</span> <span class="s1">&#39;warface_parent&#39;</span>
+    <span class="n">WARFACE</span> <span class="o">=</span> <span class="s1">&#39;warface&#39;</span>
+    <span class="n">BRAWL_STARS_AUTO</span> <span class="o">=</span> <span class="s1">&#39;brawl_stars_auto&#39;</span>
+    <span class="n">BRAWL_STARS</span> <span class="o">=</span> <span class="s1">&#39;brawl_stars&#39;</span>
+    <span class="n">OVERWATCH_EU</span> <span class="o">=</span> <span class="s1">&#39;overwatch_EU&#39;</span>
+    <span class="n">OVERWATCH_US</span> <span class="o">=</span> <span class="s1">&#39;overwatch_US&#39;</span>
+    <span class="n">OVERWATCH_KR</span> <span class="o">=</span> <span class="s1">&#39;overwatch_KR&#39;</span>
+    <span class="n">OVERWATCH</span> <span class="o">=</span> <span class="s1">&#39;overwatch&#39;</span>
+    <span class="n">CLASH_ROYALE_AUTO</span> <span class="o">=</span> <span class="s1">&#39;clash_royale_auto&#39;</span>
+    <span class="n">CLASH_ROYALE</span> <span class="o">=</span> <span class="s1">&#39;clash_royale&#39;</span>
+    <span class="n">DESTINY_2_XBOX</span> <span class="o">=</span> <span class="s1">&#39;destiny2_xbox&#39;</span>
+    <span class="n">DESTINY_2_PS4</span> <span class="o">=</span> <span class="s1">&#39;destiny2_ps4&#39;</span>
+    <span class="n">DESTINY_2_PC</span> <span class="o">=</span> <span class="s1">&#39;destiny2&#39;</span>
+    <span class="n">DESTINY_2</span> <span class="o">=</span> <span class="s1">&#39;destiny2_parent&#39;</span>
+    <span class="n">LOL_TR</span> <span class="o">=</span> <span class="s1">&#39;lol_TR&#39;</span>
+    <span class="n">LOL_EUN</span> <span class="o">=</span> <span class="s1">&#39;lol_EUN&#39;</span>
+    <span class="n">LOL_EUW</span> <span class="o">=</span> <span class="s1">&#39;lol_EUW&#39;</span>
+    <span class="n">LOL_OCE</span> <span class="o">=</span> <span class="s1">&#39;lol_OCE&#39;</span>
+    <span class="n">LOL_BR</span> <span class="o">=</span> <span class="s1">&#39;lol_BR&#39;</span>
+    <span class="n">LOL_LAN</span> <span class="o">=</span> <span class="s1">&#39;lol_LAN&#39;</span>
+    <span class="n">LOL_LAS</span> <span class="o">=</span> <span class="s1">&#39;lol_LAS&#39;</span>
+    <span class="n">LOL_NA</span> <span class="o">=</span> <span class="s1">&#39;lol_NA&#39;</span>
+    <span class="n">LOL</span> <span class="o">=</span> <span class="s1">&#39;Wild&#39;</span>
+    <span class="n">LOL_PARENT</span> <span class="o">=</span> <span class="s1">&#39;lol_parent&#39;</span>
+    <span class="n">KRUNKER</span> <span class="o">=</span> <span class="s1">&#39;krunker&#39;</span>
+    <span class="n">RING_OF_ELYSIUM</span> <span class="o">=</span> <span class="s1">&#39;ring_of_elysium&#39;</span>
+    <span class="n">TF2</span> <span class="o">=</span> <span class="s1">&#39;tf2&#39;</span>
+    <span class="n">CS_DZ</span> <span class="o">=</span> <span class="s1">&#39;csdz&#39;</span>
+    <span class="n">VALORANT</span> <span class="o">=</span> <span class="s1">&#39;valorant&#39;</span>
+    <span class="n">DOTA_2</span> <span class="o">=</span> <span class="s1">&#39;dota2&#39;</span>
+    <span class="n">TEMPERIA</span> <span class="o">=</span> <span class="s1">&#39;temperia&#39;</span>
+    <span class="n">HS_BATTLEGROUNDS</span> <span class="o">=</span> <span class="s1">&#39;hearthstone-battlegrounds&#39;</span>
+    <span class="n">FIFA22</span> <span class="o">=</span> <span class="s1">&#39;fifa22&#39;</span>
+    <span class="n">FIFA20</span> <span class="o">=</span> <span class="s1">&#39;fifa20&#39;</span>
+    <span class="n">WOW</span> <span class="o">=</span> <span class="s1">&#39;wow&#39;</span>
+    <span class="n">QUAKE_CHAMPIONS</span> <span class="o">=</span> <span class="s1">&#39;quake_champions&#39;</span>
+    <span class="n">TRACKMANIA</span> <span class="o">=</span> <span class="s1">&#39;trackmania&#39;</span>
+    <span class="n">PUBG</span> <span class="o">=</span> <span class="s1">&#39;pubg&#39;</span>
+    <span class="n">NEW_STATE_MOBILE</span> <span class="o">=</span> <span class="s1">&#39;newstate&#39;</span>
+    <span class="n">RIFT</span> <span class="o">=</span> <span class="s1">&#39;wildrift&#39;</span>
+    <span class="n">HEARTHSTONE</span> <span class="o">=</span> <span class="s1">&#39;hearthstone&#39;</span>
+    <span class="n">FALLGUYS</span> <span class="o">=</span> <span class="s1">&#39;fallguys&#39;</span>
+    <span class="n">TEAMFIGHT_TACTICS</span> <span class="o">=</span> <span class="s1">&#39;teamfight_tactics&#39;</span>
+    <span class="n">PUBG_MOBILE</span> <span class="o">=</span> <span class="s1">&#39;pubgmobile&#39;</span>
+    <span class="n">ROCKET_LEAGUE</span> <span class="o">=</span> <span class="s1">&#39;rocket_league&#39;</span>
+    <span class="n">CS_GO</span> <span class="o">=</span> <span class="s1">&#39;csgo&#39;</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stuart.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

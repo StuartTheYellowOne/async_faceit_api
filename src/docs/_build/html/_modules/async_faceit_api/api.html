@@ -41,6 +41,9 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../modules.html">async_faceit_api</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../error_handling.html">Error Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../useful_links.html">Useful links</a></li>
 </ul>
 
         </div>
@@ -125,7 +128,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Championships collection</span>
-<span class="sd">        :rtype: :class:`.Collection[.Championship]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Championship]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;championships?game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -162,7 +165,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Matches list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Match]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Match]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">/matches?type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -180,7 +183,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Championship results</span>
-<span class="sd">        :rtype: :class:`.Collection[.Result]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Result]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">/results?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -198,7 +201,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Subscriptions list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Subscription]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Subscription]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">/subscriptions?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -215,7 +218,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Games list</span>
-<span class="sd">        :rtype: :class:`.Collection[.GameData]`</span>
+<span class="sd">        :rtype: :class:`.Collection[GameData]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;games?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -276,7 +279,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Matches list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Match]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Match]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/matches?type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -292,7 +295,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Members list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Member]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Member]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/members?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -308,7 +311,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Roles list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Role]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Role]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/roles?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -355,7 +358,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Leaderboard]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Leaderboard]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -374,7 +377,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[.Ranking]`</span>
+<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[Ranking]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;leaderboards/championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">/groups/</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -392,7 +395,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Leaderboard]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Leaderboard]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -409,7 +412,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[.Ranking]`</span>
+<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[Ranking]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/general?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -428,7 +431,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[.Ranking]`</span>
+<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[Ranking]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/seasons/</span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -447,7 +450,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[.Ranking]`</span>
+<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[Ranking]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/</span><span class="si">{</span><span class="n">leaderboard_id</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -516,7 +519,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Championship]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Championship]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">/championships?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -528,7 +531,7 @@
 <span class="sd">        :param organizer_id: The id of the organizer</span>
 <span class="sd">        :type organizer_id: str</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Hub]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Hub]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">/games&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -544,7 +547,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Hub]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Hub]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">/hubs?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -563,7 +566,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Leaderboards list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Tournament]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Tournament]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">/tournaments?type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -628,7 +631,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Player matches list</span>
-<span class="sd">        :rtype: :class:`.FromToCollection[.PlayerMatch]`</span>
+<span class="sd">        :rtype: :class:`.FromToCollection[PlayerMatch]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">/history?game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -655,7 +658,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Hubs list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Hub]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Hub]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">/hubs?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -669,7 +672,7 @@
 <span class="sd">        :param game: A game on FACEIT</span>
 <span class="sd">        :type game: :class:`.Game`</span>
 <span class="sd">        :return: Player stats</span>
-<span class="sd">        :rtype: :class:`.Collection[.Hub]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Hub]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">/stats/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -685,7 +688,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Tournaments list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Tournament]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Tournament]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">/tournaments?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -708,7 +711,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Tournaments list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Rank]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Rank]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;rankings/games/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">/regions/</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -732,7 +735,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Tournaments list</span>
-<span class="sd">        :rtype: :class:`.RankCollection[.Rank]`</span>
+<span class="sd">        :rtype: :class:`.RankCollection[Rank]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;rankings/games/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">/regions/</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">/players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">?limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -761,7 +764,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: List of championship</span>
-<span class="sd">        :rtype: :class:`.Collection[.ChampionshipSearchResult]`</span>
+<span class="sd">        :rtype: :class:`.Collection[ChampionshipSearchResult]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;search/championships?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&amp;type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -787,7 +790,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: List of hub</span>
-<span class="sd">        :rtype: :class:`.Collection[.ChampionshipSearchResult]`</span>
+<span class="sd">        :rtype: :class:`.Collection[ChampionshipSearchResult]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;search/hubs?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -808,7 +811,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: List of organizers</span>
-<span class="sd">        :rtype: :class:`.Collection[.OrganizerSearchResult]`</span>
+<span class="sd">        :rtype: :class:`.Collection[OrganizerSearchResult]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;search/organizers?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -829,7 +832,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: List of players</span>
-<span class="sd">        :rtype: :class:`.Collection[.PlayerSearchResult]`</span>
+<span class="sd">        :rtype: :class:`.Collection[PlayerSearchResult]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;search/players?nickname=</span><span class="si">{</span><span class="n">nickname</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -852,7 +855,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: List of teams</span>
-<span class="sd">        :rtype: :class:`.Collection[.TeamSearchResult]`</span>
+<span class="sd">        :rtype: :class:`.Collection[TeamSearchResult]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;search/teams?nickname=</span><span class="si">{</span><span class="n">nickname</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -878,7 +881,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: List of tournament</span>
-<span class="sd">        :rtype: :class:`.Collection[.TournamentSearchResult]`</span>
+<span class="sd">        :rtype: :class:`.Collection[TournamentSearchResult]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
             <span class="sa">f</span><span class="s1">&#39;search/tournaments?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&amp;type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -927,7 +930,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Tournaments list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Tournament]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Tournament]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;teams/</span><span class="si">{</span><span class="n">team_id</span><span class="si">}</span><span class="s1">/tournaments?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
@@ -948,7 +951,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Tournaments list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Tournament]`</span>
+<span class="sd">        :rtype: :class:`.CollectionTournament]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tournaments?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -996,7 +999,7 @@
 <span class="sd">        :param limit: The number of items to return</span>
 <span class="sd">        :type limit: int, optional</span>
 <span class="sd">        :return: Matches list</span>
-<span class="sd">        :rtype: :class:`.Collection[.Match]`</span>
+<span class="sd">        :rtype: :class:`.Collection[Match]`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tournaments/</span><span class="si">{</span><span class="n">tournament_id</span><span class="si">}</span><span class="s1">/matches?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>

@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>async_faceit_api.data_api &mdash; Async Facit API  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Async Facit API
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">async_faceit_api</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../error_handling.html">Error Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../useful_links.html">Useful links</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Async Facit API</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">async_faceit_api.data_api</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for async_faceit_api.data_api</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span>
+
+<span class="kn">from</span> <span class="nn">aiohttp</span> <span class="kn">import</span> <span class="n">request</span>
+<span class="kn">from</span> <span class="nn">.dataclasses.enums</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.dataclasses.data_api</span> <span class="kn">import</span> <span class="o">*</span>
+
+
+<div class="viewcode-block" id="FaceitAPI"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI">[docs]</a><span class="k">class</span> <span class="nc">FaceitAPI</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    See the faceit data-api docs for more information:</span>
+<span class="sd">    https://developers.faceit.com/docs/tools/data-api</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__BASE_URL</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;https://open.faceit.com/data/v4/</span><span class="si">{}</span><span class="s1">&#39;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">api_token</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__header</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;accept&#39;</span><span class="p">:</span> <span class="s1">&#39;application/json&#39;</span><span class="p">,</span>
+            <span class="s1">&#39;Authorization&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;Bearer </span><span class="si">{</span><span class="n">api_token</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="p">}</span>
+
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__make_request</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+        <span class="k">async</span> <span class="k">with</span> <span class="n">request</span><span class="p">(</span><span class="n">method</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">headers</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__header</span><span class="p">)</span> <span class="k">as</span> <span class="n">response</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">status</span><span class="p">,</span> <span class="k">await</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__create_object</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">object_class</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">json_response</span> <span class="o">=</span> <span class="n">response</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">json_response</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">200</span> <span class="o">&lt;=</span> <span class="n">status</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FaceitApiError</span><span class="p">(</span><span class="o">**</span><span class="n">json_response</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">object_class</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">object_class</span><span class="p">(</span><span class="o">**</span><span class="n">json_response</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">json_response</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">__create_collection</span><span class="p">(</span><span class="n">response</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">object_class</span><span class="p">,</span> <span class="n">collection_class</span><span class="o">=</span><span class="n">Collection</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="n">status</span><span class="p">,</span> <span class="n">json_response</span> <span class="o">=</span> <span class="n">response</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">json_response</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="mi">200</span> <span class="o">&lt;=</span> <span class="n">status</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">FaceitApiError</span><span class="p">(</span><span class="o">**</span><span class="n">json_response</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="p">)</span>
+        <span class="n">json_response</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">object_class</span><span class="p">(</span><span class="o">**</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">json_response</span><span class="p">[</span><span class="s2">&quot;items&quot;</span><span class="p">]]</span>
+        <span class="k">return</span> <span class="n">collection_class</span><span class="p">(</span><span class="o">**</span><span class="n">json_response</span><span class="p">)</span>
+
+    <span class="c1"># region Championships</span>
+<div class="viewcode-block" id="FaceitAPI.championships"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.championships">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">championships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="n">MatchType</span> <span class="o">=</span> <span class="n">MatchType</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                            <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Championship</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all championships of a game</span>
+
+<span class="sd">        :param game: The id of the game</span>
+<span class="sd">        :type game: :class:`.Game`</span>
+<span class="sd">        :param type_: Kind of matches to return. Can be all(default), upcoming, ongoing or past</span>
+<span class="sd">        :type type_: :class:`.MatchType`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Championships collection</span>
+<span class="sd">        :rtype: :class:`.Collection[Championship]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;championships?game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Championship</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.championship"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.championship">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">championship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">championship_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                           <span class="n">expanded</span><span class="p">:</span> <span class="n">Expansion</span> <span class="o">=</span> <span class="n">Expansion</span><span class="o">.</span><span class="n">NONE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Championship</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve championship details</span>
+
+<span class="sd">        :param championship_id: The id of the championship</span>
+<span class="sd">        :type championship_id: str</span>
+<span class="sd">        :param expanded: List of entity names to expand in request</span>
+<span class="sd">        :type expanded: :class:`.Expansion`, optional</span>
+<span class="sd">        :return: Championship details</span>
+<span class="sd">        :rtype: :class:.Championship`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expanded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Expansion</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;?expanded=</span><span class="si">{</span><span class="n">expanded</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Championship</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.championship_matches"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.championship_matches">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">championship_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">championship_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="n">MatchType</span> <span class="o">=</span> <span class="n">MatchType</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span>
+                                   <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Match</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all matches of a championship</span>
+
+<span class="sd">        :param championship_id: The id of the championship</span>
+<span class="sd">        :type championship_id: str</span>
+<span class="sd">        :param type_: Kind of matches to return. Can be all(default), upcoming, ongoing or past</span>
+<span class="sd">        :type type_: :class:`.MatchType`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Matches list</span>
+<span class="sd">        :rtype: :class:`.Collection[Match]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">/matches?type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Match</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.championship_results"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.championship_results">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">championship_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">championship_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                   <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Result</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all results of a championship</span>
+
+<span class="sd">        :param championship_id: The id of the championship</span>
+<span class="sd">        :type championship_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Championship results</span>
+<span class="sd">        :rtype: :class:`.Collection[Result]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">/results?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Result</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.championship_subscriptions"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.championship_subscriptions">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">championship_subscriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">championship_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                         <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Subscription</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all subscriptions of a championship</span>
+
+<span class="sd">        :param championship_id: The id of the championship</span>
+<span class="sd">        :type championship_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Subscriptions list</span>
+<span class="sd">        :rtype: :class:`.Collection[Subscription]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">/subscriptions?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Subscription</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Games</span>
+<div class="viewcode-block" id="FaceitAPI.games"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.games">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">games</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">GameData</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve details of all games on FACEIT</span>
+
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Games list</span>
+<span class="sd">        :rtype: :class:`.Collection[GameData]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;games?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">GameData</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.game_details"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.game_details">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">game_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve game details</span>
+
+<span class="sd">        :param game: The id of the game</span>
+<span class="sd">        :type game: :class:`.Game`</span>
+<span class="sd">        :return: Game detail</span>
+<span class="sd">        :rtype: :class:`.GameData`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;games/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">GameData</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.game_parent_details"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.game_parent_details">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">game_parent_details</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the details of the parent game, if the game is region-specific</span>
+
+<span class="sd">        :param game: The id of the game</span>
+<span class="sd">        :type game: :class:`.Game`</span>
+<span class="sd">        :return: Game detail</span>
+<span class="sd">        :rtype: :class:`.GameData`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;games/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">/parent&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">GameData</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Hubs</span>
+<div class="viewcode-block" id="FaceitAPI.hub"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.hub">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">hub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expanded</span><span class="p">:</span> <span class="n">Expansion</span> <span class="o">=</span> <span class="n">Expansion</span><span class="o">.</span><span class="n">NONE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Hub</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve hub details</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :param expanded: List of entity names to expand in request</span>
+<span class="sd">        :type expanded: :class:`.Expansion`</span>
+<span class="sd">        :return: Hub details</span>
+<span class="sd">        :rtype: :class:`.Hub`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expanded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Expansion</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;?expanded=</span><span class="si">{</span><span class="n">expanded</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Hub</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.hub_matches"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.hub_matches">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">hub_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="n">MatchType</span> <span class="o">=</span> <span class="n">MatchType</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                          <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Match</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all matches of a hub</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :param type_: Kind of matches to return. Can be all(default), upcoming, ongoing or past</span>
+<span class="sd">        :type type_: :class:`.MatchType`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Matches list</span>
+<span class="sd">        :rtype: :class:`.Collection[Match]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/matches?type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Match</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.hub_members"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.hub_members">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">hub_members</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Member</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all members of a hub</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Members list</span>
+<span class="sd">        :rtype: :class:`.Collection[Member]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/members?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Member</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.hub_roles"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.hub_roles">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">hub_roles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Role</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all roles members can have in a hub</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Roles list</span>
+<span class="sd">        :rtype: :class:`.Collection[Role]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/roles?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Role</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.hub_rules"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.hub_rules">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">hub_rules</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Rule</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve rules of a hub</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :return: Rules details</span>
+<span class="sd">        :rtype: :class:`.Rule`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/rules&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Rule</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.hub_stats"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.hub_stats">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">hub_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">GameStats</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve statistics of a hub</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Hub stats</span>
+<span class="sd">        :rtype: :class:`.GameStats`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/stats?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">GameStats</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Leaderboards</span>
+<div class="viewcode-block" id="FaceitAPI.leaderboards_championship"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.leaderboards_championship">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">leaderboards_championship</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">championship_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Leaderboard</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all leaderboards of a championship</span>
+
+<span class="sd">        :param championship_id: The id of the championship</span>
+<span class="sd">        :type championship_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.Collection[Leaderboard]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Leaderboard</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.leaderboards_championship_groups"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.leaderboards_championship_groups">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">leaderboards_championship_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">championship_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                               <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChampionshipRankingCollection</span><span class="p">[</span><span class="n">Ranking</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve group ranking of a championship</span>
+
+<span class="sd">        :param championship_id: The id of the championship</span>
+<span class="sd">        :type championship_id: str</span>
+<span class="sd">        :param group: A group of the championship</span>
+<span class="sd">        :type group: int</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[Ranking]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;leaderboards/championships/</span><span class="si">{</span><span class="n">championship_id</span><span class="si">}</span><span class="s1">/groups/</span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Ranking</span><span class="p">,</span> <span class="n">ChampionshipRankingCollection</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.leaderboards_hub"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.leaderboards_hub">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">leaderboards_hub</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                               <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Leaderboard</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all leaderboards of a hub</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.Collection[Leaderboard]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Leaderboard</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.leaderboards_hub_general"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.leaderboards_hub_general">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">leaderboards_hub_general</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                       <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChampionshipRankingCollection</span><span class="p">[</span><span class="n">Ranking</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all time ranking of a hub</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[Ranking]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/general?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Ranking</span><span class="p">,</span> <span class="n">ChampionshipRankingCollection</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.leaderboards_hub_season"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.leaderboards_hub_season">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">leaderboards_hub_season</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hub_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">season</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChampionshipRankingCollection</span><span class="p">[</span><span class="n">Ranking</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve seasonal ranking of a hub</span>
+
+<span class="sd">        :param hub_id: The id of the hub</span>
+<span class="sd">        :type hub_id: str</span>
+<span class="sd">        :param season: A season of the hub</span>
+<span class="sd">        :type season: int</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[Ranking]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/hubs/</span><span class="si">{</span><span class="n">hub_id</span><span class="si">}</span><span class="s1">/seasons/</span><span class="si">{</span><span class="n">season</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Ranking</span><span class="p">,</span> <span class="n">ChampionshipRankingCollection</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.leaderboard"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.leaderboard">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">leaderboard</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">leaderboard_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                          <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ChampionshipRankingCollection</span><span class="p">[</span><span class="n">Ranking</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve ranking from a leaderboard id</span>
+
+<span class="sd">        :param leaderboard_id: The id of the leaderboard</span>
+<span class="sd">        :type leaderboard_id: str</span>
+<span class="sd">        :param season: A season of the hub</span>
+<span class="sd">        :type season: int</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.ChampionshipRankingCollection[Ranking]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;leaderboards/</span><span class="si">{</span><span class="n">leaderboard_id</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Ranking</span><span class="p">,</span> <span class="n">ChampionshipRankingCollection</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Matches</span>
+<div class="viewcode-block" id="FaceitAPI.match"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.match">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">match</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Match</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve match details</span>
+
+<span class="sd">        :param match_id: The id of the match</span>
+<span class="sd">        :type match_id: str</span>
+<span class="sd">        :return: Match details</span>
+<span class="sd">        :rtype: :class:`.Match`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;matches/</span><span class="si">{</span><span class="n">match_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Match</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.match_stats"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.match_stats">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">match_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">match_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">MatchStats</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve statistics of a match</span>
+
+<span class="sd">        :param match_id: The id of the match</span>
+<span class="sd">        :type match_id: str</span>
+<span class="sd">        :return: Match details</span>
+<span class="sd">        :rtype: :class:`.MatchStats`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;matches/</span><span class="si">{</span><span class="n">match_id</span><span class="si">}</span><span class="s1">/stats&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">MatchStats</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Organizers</span>
+<div class="viewcode-block" id="FaceitAPI.organizer_by_name"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.organizer_by_name">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">organizer_by_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrganizerData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve organizer details from name</span>
+
+<span class="sd">        :param name: The name of the organizer</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :return: Organizer details</span>
+<span class="sd">        :rtype: :class:`.OrganizerData`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;organizers?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">OrganizerData</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.organizer_by_id"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.organizer_by_id">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">organizer_by_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organizer_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OrganizerData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve organizer details</span>
+
+<span class="sd">        :param organizer_id: The id of the organizer</span>
+<span class="sd">        :type organizer_id: str</span>
+<span class="sd">        :return: Organizer details</span>
+<span class="sd">        :rtype: :class:`.OrganizerData`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">OrganizerData</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.organizer_championships"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.organizer_championships">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">organizer_championships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organizer_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                      <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Championship</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all championships of an organizer</span>
+
+<span class="sd">        :param organizer_id: The id of the organizer</span>
+<span class="sd">        :type organizer_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.Collection[Championship]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">/championships?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Championship</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.organizer_games"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.organizer_games">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">organizer_games</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organizer_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Hub</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all games an organizer is involved with</span>
+
+<span class="sd">        :param organizer_id: The id of the organizer</span>
+<span class="sd">        :type organizer_id: str</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.Collection[Hub]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">/games&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Hub</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.organizer_hubs"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.organizer_hubs">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">organizer_hubs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organizer_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Hub</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all hubs of an organizer</span>
+
+<span class="sd">        :param organizer_id: The id of the organizer</span>
+<span class="sd">        :type organizer_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.Collection[Hub]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">/hubs?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Hub</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.organizer_tournaments"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.organizer_tournaments">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">organizer_tournaments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">organizer_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">type_</span><span class="p">:</span> <span class="n">MatchType</span> <span class="o">=</span> <span class="n">MatchType</span><span class="o">.</span><span class="n">UPCOMING</span><span class="p">,</span>
+                                    <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Tournament</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all tournaments of an organizer</span>
+
+<span class="sd">        :param organizer_id: The id of the organizer</span>
+<span class="sd">        :type organizer_id: str</span>
+<span class="sd">        :param type_: Kind of tournament. Can be upcoming(default) or past</span>
+<span class="sd">        :type type_: :class:`.MatchType`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Leaderboards list</span>
+<span class="sd">        :rtype: :class:`.Collection[Tournament]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;organizers/</span><span class="si">{</span><span class="n">organizer_id</span><span class="si">}</span><span class="s1">/tournaments?type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Tournament</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Players</span>
+<div class="viewcode-block" id="FaceitAPI.player_by_nickname"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.player_by_nickname">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">player_by_nickname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Player</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve player details</span>
+
+<span class="sd">        :param nickname: The nickname of the player on FACEIT</span>
+<span class="sd">        :type nickname: str</span>
+<span class="sd">        :return: Player details</span>
+<span class="sd">        :rtype: :class:`.Player`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players?nickname=</span><span class="si">{</span><span class="n">nickname</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Player</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.player_by_game_player_id"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.player_by_game_player_id">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">player_by_game_player_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">,</span> <span class="n">game_player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Player</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve player details</span>
+
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`</span>
+<span class="sd">        :param game_player_id: The ID of a player on game&#39;s platform</span>
+<span class="sd">        :type game_player_id: str</span>
+<span class="sd">        :return: Player details</span>
+<span class="sd">        :rtype: :class:`.Player`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players?game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;game_player_id=</span><span class="si">{</span><span class="n">game_player_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Player</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.player_by_player_id"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.player_by_player_id">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">player_by_player_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Player</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve player details</span>
+
+<span class="sd">        :param player_id: The id of the player</span>
+<span class="sd">        :type player_id: str</span>
+<span class="sd">        :return: Player details</span>
+<span class="sd">        :rtype: :class:`.Player`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Player</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.player_history"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.player_history">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">player_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">,</span> <span class="n">from_</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                             <span class="n">to</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                             <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FromToCollection</span><span class="p">[</span><span class="n">PlayerMatch</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all matches of a player</span>
+
+<span class="sd">        :param player_id: The id of the player</span>
+<span class="sd">        :type player_id: str</span>
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`</span>
+<span class="sd">        :param from_: The timestamp in sec or datetime as lower bound of the query. 1 month ago if not specified</span>
+<span class="sd">        :type from_: Union[int, datetime.datetime], optional</span>
+<span class="sd">        :param to: The timestamp in sec or datetime as higher bound of the query. Current timestamp if not specified</span>
+<span class="sd">        :type to: Union[int, datetime.datetime], optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Player matches list</span>
+<span class="sd">        :rtype: :class:`.FromToCollection[PlayerMatch]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">/history?game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">from_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">from_</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+                <span class="n">from_</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">from_</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;from=</span><span class="si">{</span><span class="n">from_</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="n">to</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">to</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
+                <span class="n">to</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">to</span><span class="o">.</span><span class="n">timestamp</span><span class="p">())</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;to=</span><span class="si">{</span><span class="n">to</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">retval</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;from_&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">retval</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">]</span>
+        <span class="k">del</span> <span class="n">retval</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s2">&quot;from&quot;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">PlayerMatch</span><span class="p">,</span> <span class="n">FromToCollection</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.player_hubs"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.player_hubs">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">player_hubs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Hub</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all hubs of a player</span>
+
+<span class="sd">        :param player_id: The id of the player</span>
+<span class="sd">        :type player_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Hubs list</span>
+<span class="sd">        :rtype: :class:`.Collection[Hub]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">/hubs?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Hub</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.player_game_stats"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.player_game_stats">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">player_game_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlayerGameStats</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve statistics of a player</span>
+
+<span class="sd">        :param player_id: The id of the player</span>
+<span class="sd">        :type player_id: str</span>
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`</span>
+<span class="sd">        :return: Player stats</span>
+<span class="sd">        :rtype: :class:`.Collection[Hub]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">/stats/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">PlayerGameStats</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.player_tournaments"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.player_tournaments">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">player_tournaments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Tournament</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all tournaments of a player</span>
+
+<span class="sd">        :param player_id: The id of the player</span>
+<span class="sd">        :type player_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Tournaments list</span>
+<span class="sd">        :rtype: :class:`.Collection[Tournament]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">/tournaments?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Tournament</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Rankings</span>
+<div class="viewcode-block" id="FaceitAPI.ranking"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.ranking">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ranking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="n">Region</span><span class="p">,</span> <span class="n">country</span><span class="p">:</span> <span class="n">Country</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                      <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Rank</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve global ranking of a game</span>
+
+<span class="sd">        :param player_id: The id of the player</span>
+<span class="sd">        :type player_id: str</span>
+<span class="sd">        :param region: A region of a game</span>
+<span class="sd">        :type region: :class:`.Region`</span>
+<span class="sd">        :param country: A country code</span>
+<span class="sd">        :type country: :class:`.Country`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Tournaments list</span>
+<span class="sd">        :rtype: :class:`.Collection[Rank]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;rankings/games/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">/regions/</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">country</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;country=</span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Rank</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.ranking_of_player"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.ranking_of_player">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">ranking_of_player</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="n">Region</span><span class="p">,</span> <span class="n">player_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">country</span><span class="p">:</span> <span class="n">Country</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">RankCollection</span><span class="p">[</span><span class="n">Rank</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve global ranking of a game</span>
+
+<span class="sd">        :param game: The id of the player</span>
+<span class="sd">        :type game: str</span>
+<span class="sd">        :param region: A region of a game</span>
+<span class="sd">        :type region: :class:`.Region`</span>
+<span class="sd">        :param player_id: The id of a player</span>
+<span class="sd">        :type player_id: str</span>
+<span class="sd">        :param country: A country code</span>
+<span class="sd">        :type country: :class:`.Country`, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Tournaments list</span>
+<span class="sd">        :rtype: :class:`.RankCollection[Rank]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;rankings/games/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">/regions/</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">/players/</span><span class="si">{</span><span class="n">player_id</span><span class="si">}</span><span class="s1">?limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">country</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;country=</span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Rank</span><span class="p">,</span> <span class="n">RankCollection</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Search</span>
+<div class="viewcode-block" id="FaceitAPI.search_championships"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.search_championships">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">search_championships</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="n">Region</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                   <span class="n">type_</span><span class="p">:</span> <span class="n">MatchType</span> <span class="o">=</span> <span class="n">MatchType</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                   <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">ChampionshipSearchResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for championships</span>
+
+<span class="sd">        :param name: The name of a championship on FACEIT</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`, optional</span>
+<span class="sd">        :param region: A region of a game</span>
+<span class="sd">        :type region: :class:`.Region`, optional</span>
+<span class="sd">        :param type_: Kind of competitions to return</span>
+<span class="sd">        :type type_: :class:`.MatchType`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: List of championship</span>
+<span class="sd">        :rtype: :class:`.Collection[ChampionshipSearchResult]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;search/championships?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&amp;type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;game=</span><span class="si">{</span><span class="n">game</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;region=</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">ChampionshipSearchResult</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.search_hubs"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.search_hubs">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">search_hubs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="n">Region</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                          <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">ChampionshipSearchResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of hub</span>
+
+<span class="sd">        :param name: The name of a hub on FACEIT</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`, optional</span>
+<span class="sd">        :param region: A region of a game</span>
+<span class="sd">        :type region: :class:`.Region`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: List of hub</span>
+<span class="sd">        :rtype: :class:`.Collection[ChampionshipSearchResult]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;search/hubs?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;region=</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">ChampionshipSearchResult</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.search_organizers"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.search_organizers">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">search_organizers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">OrganizerSearchResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for organizers</span>
+
+<span class="sd">        :param name: The name of a organizer on FACEIT</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: List of organizers</span>
+<span class="sd">        :rtype: :class:`.Collection[OrganizerSearchResult]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;search/organizers?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">OrganizerSearchResult</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.search_players"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.search_players">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">search_players</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">country</span><span class="p">:</span> <span class="n">Country</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                             <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">PlayerSearchResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for players</span>
+
+<span class="sd">        :param nickname: The nickname of a player on FACEIT</span>
+<span class="sd">        :type nickname: str</span>
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`, optional</span>
+<span class="sd">        :param country: A country code</span>
+<span class="sd">        :type country: :class:`.Country`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: List of players</span>
+<span class="sd">        :rtype: :class:`.Collection[PlayerSearchResult]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;search/players?nickname=</span><span class="si">{</span><span class="n">nickname</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="n">country</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;country=</span><span class="si">{</span><span class="n">country</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">PlayerSearchResult</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.search_teams"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.search_teams">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">search_teams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nickname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                           <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">TeamSearchResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for teams</span>
+
+<span class="sd">        :param nickname: The nickname of a team on FACEIT</span>
+<span class="sd">        :type nickname: str</span>
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: List of teams</span>
+<span class="sd">        :rtype: :class:`.Collection[TeamSearchResult]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;search/teams?nickname=</span><span class="si">{</span><span class="n">nickname</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">TeamSearchResult</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.search_tournaments"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.search_tournaments">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">search_tournaments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="n">Region</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">type_</span><span class="p">:</span> <span class="n">MatchType</span> <span class="o">=</span> <span class="n">MatchType</span><span class="o">.</span><span class="n">ALL</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                                 <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">TournamentSearchResult</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Search for teams</span>
+
+<span class="sd">        :param name: The name of a tournament on FACEIT</span>
+<span class="sd">        :type name: str</span>
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`, optional</span>
+<span class="sd">        :param region: A region of a game</span>
+<span class="sd">        :type region: :class:`.Region`, optional</span>
+<span class="sd">        :param type_: Kind of competitions to return</span>
+<span class="sd">        :type type_: :class:`.MatchType`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: List of tournament</span>
+<span class="sd">        :rtype: :class:`.Collection[TournamentSearchResult]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;search/tournaments?name=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&amp;type=</span><span class="si">{</span><span class="n">type_</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&amp;offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;region=</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">TournamentSearchResult</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Teams</span>
+<div class="viewcode-block" id="FaceitAPI.team"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.team">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">team</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">team_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Team</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve team details</span>
+
+<span class="sd">        :param team_id: The id of the team</span>
+<span class="sd">        :type team_id: str</span>
+<span class="sd">        :return: Team details</span>
+<span class="sd">        :rtype: :class:`.Team`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;teams/</span><span class="si">{</span><span class="n">team_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Team</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.team_game_stats"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.team_game_stats">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">team_game_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">team_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TeamGameStats</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve statistics of a team</span>
+
+<span class="sd">        :param team_id: The id of the team</span>
+<span class="sd">        :type team_id: str</span>
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`</span>
+<span class="sd">        :return: Team stats</span>
+<span class="sd">        :rtype: :class:`.TeamGameStats`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;teams/</span><span class="si">{</span><span class="n">team_id</span><span class="si">}</span><span class="s1">/stats/</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Tournament</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.team_tournaments"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.team_tournaments">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">team_tournaments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">team_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Tournament</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve tournaments of a team</span>
+
+<span class="sd">        :param team_id: The id of the team</span>
+<span class="sd">        :type team_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Tournaments list</span>
+<span class="sd">        :rtype: :class:`.Collection[Tournament]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;teams/</span><span class="si">{</span><span class="n">team_id</span><span class="si">}</span><span class="s1">/tournaments?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Tournament</span><span class="p">)</span></div>
+    <span class="c1"># endregion</span>
+
+    <span class="c1"># region Tournaments</span>
+<div class="viewcode-block" id="FaceitAPI.tournaments"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.tournaments">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">tournaments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">game</span><span class="p">:</span> <span class="n">Game</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">region</span><span class="p">:</span> <span class="n">Region</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+                          <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Tournament</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve tournaments v1 (no longer used)</span>
+
+<span class="sd">        :param game: A game on FACEIT</span>
+<span class="sd">        :type game: :class:`.Game`, optional</span>
+<span class="sd">        :param region: A region of a game</span>
+<span class="sd">        :type region: :class:`.Region`, optional</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Tournaments list</span>
+<span class="sd">        :rtype: :class:`.CollectionTournament]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tournaments?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">game</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;game=</span><span class="si">{</span><span class="n">game</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="n">region</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;&amp;region=</span><span class="si">{</span><span class="n">region</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Tournament</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.tournament"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.tournament">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">tournament</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tournament_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expanded</span><span class="p">:</span> <span class="n">Expansion</span> <span class="o">=</span> <span class="n">Expansion</span><span class="o">.</span><span class="n">NONE</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TournamentData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve tournament details</span>
+
+<span class="sd">        :param tournament_id: The id of the tournament</span>
+<span class="sd">        :type tournament_id: str</span>
+<span class="sd">        :param expanded: List of entity names to expand in request</span>
+<span class="sd">        :type expanded: :class:`.Expansion`</span>
+<span class="sd">        :return: Tournament details</span>
+<span class="sd">        :rtype: :class:`.TournamentData`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tournaments/</span><span class="si">{</span><span class="n">tournament_id</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expanded</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Expansion</span><span class="o">.</span><span class="n">NONE</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">+=</span> <span class="sa">f</span><span class="s1">&#39;?expanded=</span><span class="si">{</span><span class="n">expanded</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">TournamentData</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.tournament_brackets"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.tournament_brackets">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">tournament_brackets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tournament_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Brackets</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve brackets of a tournament</span>
+
+<span class="sd">        :param tournament_id: The id of the tournament</span>
+<span class="sd">        :type tournament_id: str</span>
+<span class="sd">        :return: Tournament details</span>
+<span class="sd">        :rtype: :class:`.Brackets`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tournaments/</span><span class="si">{</span><span class="n">tournament_id</span><span class="si">}</span><span class="s1">/brackets&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Brackets</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.tournament_matches"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.tournament_matches">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">tournament_matches</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tournament_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Collection</span><span class="p">[</span><span class="n">Match</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all matches of a tournament</span>
+
+<span class="sd">        :param tournament_id: The id of the tournament</span>
+<span class="sd">        :type tournament_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Matches list</span>
+<span class="sd">        :rtype: :class:`.Collection[Match]`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tournaments/</span><span class="si">{</span><span class="n">tournament_id</span><span class="si">}</span><span class="s1">/matches?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_collection</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">Match</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FaceitAPI.tournament_teams"><a class="viewcode-back" href="../../async_faceit_api.html#async_faceit_api.data_api.FaceitAPI.tournament_teams">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">tournament_teams</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tournament_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">20</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TournamentTeams</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve all teams of a tournament</span>
+
+<span class="sd">        :param tournament_id: The id of the tournament</span>
+<span class="sd">        :type tournament_id: str</span>
+<span class="sd">        :param offset: The starting item position</span>
+<span class="sd">        :type offset: int, optional</span>
+<span class="sd">        :param limit: The number of items to return</span>
+<span class="sd">        :type limit: int, optional</span>
+<span class="sd">        :return: Matches list</span>
+<span class="sd">        :rtype: :class:`.TournamentTeams`</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;tournaments/</span><span class="si">{</span><span class="n">tournament_id</span><span class="si">}</span><span class="s1">/teams?offset=</span><span class="si">{</span><span class="n">offset</span><span class="si">}</span><span class="s1">&amp;limit=</span><span class="si">{</span><span class="n">limit</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">retval</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__make_request</span><span class="p">(</span><span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="n">FaceitAPI</span><span class="o">.</span><span class="n">__create_object</span><span class="p">(</span><span class="n">retval</span><span class="p">,</span> <span class="n">TournamentTeams</span><span class="p">)</span></div></div>
+    <span class="c1"># endregion</span>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Stuart.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

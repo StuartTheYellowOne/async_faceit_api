@@ -11,6 +11,9 @@ Welcome to Async Faceit API's documentation!
    :caption: Contents:
 
    modules
+   examples
+   error_handling
+   useful_links
 
 
 Indices and tables
