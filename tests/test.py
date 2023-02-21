@@ -1,12 +1,9 @@
-import datetime
 import os
 import asyncio
 
 from src.async_faceit_api import FaceitAPI
 from dotenv import load_dotenv
-
-from src.async_faceit_api.dataclasses import Match
-from src.async_faceit_api.enums import Game, Region, Country
+from src.async_faceit_api.enums import Game, Region
 
 load_dotenv()
 

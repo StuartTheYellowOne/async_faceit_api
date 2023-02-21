@@ -1,6 +1,0 @@
-Usage
-=====
-
-you can use the ``.async_faceit_api.api.FaceitAPI.championships`` function:
-
-.. autofunction:: .async_faceit_api.api.FaceitAPI.championships
