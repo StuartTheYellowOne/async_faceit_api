@@ -1,6 +1,8 @@
+import asyncio
 import datetime
 from typing import Tuple, Any
 from aiohttp import request
+from asyncio import Semaphore
 from .enums import *
 from .dataclasses import *
 
@@ -11,23 +13,41 @@ class FaceitAPI:
     https://developers.faceit.com/docs/tools/data-api
     """
 
-    __BASE_URL: str = 'https://open.faceit.com/data/v4/{}'
+    __BASE_URL = 'https://open.faceit.com/data/v4/{}'
+    __LIMIT_PER_SEC = 100
+    __LIMIT_PER_H = 10_000
 
-    def __init__(self, api_token: str):
+    __sec_semaphore = Semaphore(__LIMIT_PER_SEC)
+    __h_semaphore = Semaphore(__LIMIT_PER_H)
+
+    def __init__(self, api_token: str, rate_limit_behaviour: RateLimitBehaviour = RateLimitBehaviour.WAIT_SOME_SEC):
         self.__header = {
             'accept': 'application/json',
             'Authorization': f'Bearer {api_token}'
         }
+        self.__rate_limit_behaviour = rate_limit_behaviour
 
     async def __make_request(self, method: str, url: str) -> Tuple[int, Any]:
-        async with request(method, url, headers=self.__header) as response:
-            return response.status, await response.json()
-
+        if self.__rate_limit_behaviour == RateLimitBehaviour.NEVER_WAIT and (self.__sec_semaphore.locked() or self.__h_semaphore.locked()):
+            return 429, {}
+        if self.__rate_limit_behaviour == RateLimitBehaviour.WAIT_SOME_SEC and self.__h_semaphore.locked():
+            return 429, {}
+        await self.__sec_semaphore.acquire()
+        await self.__h_semaphore.acquire()
+        try:
+            async with request(method, url, headers=self.__header) as response:
+                return response.status, await response.json()
+        finally:
+            loop = asyncio.get_event_loop()
+            loop.call_later(1, self.__sec_semaphore.release)
+            loop.call_later(3600, self.__h_semaphore.release)
 
     @staticmethod
     async def __create_object(response: Tuple[int, Any], object_class=None) -> Any:
         status, json_response = response
         if not 200 <= status < 300:
+            if status == 429:
+                return FaceitApiRateLimitError(**json_response)
             return FaceitApiError(**json_response, status_code=status)
         if object_class is not None:
             return object_class(**json_response)

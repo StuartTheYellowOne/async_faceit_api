@@ -18,6 +18,13 @@ class FaceitApiError(FaceitApiResponse):
         self.status_code = status_code
 
 
+class FaceitApiRateLimitError(FaceitApiResponse):
+    def __init__(self, message: str = 'Too many requests', status_code: int = 429, **kwargs):
+        super().__init__(False, **kwargs)
+        self.message = message
+        self.status_code = status_code
+
+
 class Assets(FaceitApiResponse):
     def __init__(self,
                  cover: str = None,
@@ -349,7 +356,7 @@ class Match(FaceitApiResponse):
                  broadcast_start_time: int = None,
                  broadcast_start_time_label: str = None,
                  configured_at: int = None,
-                 demo_url: list[str] = None,
+                 demo_url: List[str] = None,
                  finished_at: int = None,
                  group: int = None,
                  results: dict = None,

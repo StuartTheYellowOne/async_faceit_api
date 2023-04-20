@@ -3,7 +3,7 @@ import asyncio
 
 from src.async_faceit_api import FaceitAPI
 from dotenv import load_dotenv
-from src.async_faceit_api.enums import Game, Region
+from src.async_faceit_api.enums import Game, Region, RateLimitBehaviour
 
 load_dotenv()
 
@@ -165,8 +165,21 @@ async def test_tournament(api: FaceitAPI):
         print("error tournament_teams(tournament_id)")
 
 
+async def test_rate_limit(api: FaceitAPI):
+    match_id = "1-506ad3d0-7266-4d43-8cfc-fdbbac077027"
+    requests = [api.match_stats(match_id) for i in [0]*101]
+    results = await asyncio.gather(*requests)
+    result = [bool(r) for r in results]
+    print(result)
+    print(len(result))
+    if all(result):
+        print("error test_rate_limit")
+
+
+
+
 async def test_task():
-    api = FaceitAPI(os.getenv('faceit_api_key'))
+    api = FaceitAPI(os.getenv('faceit_api_key'), RateLimitBehaviour.WAIT_SOME_SEC)
 
     await asyncio.gather(
         test_championship(api),
@@ -179,11 +192,13 @@ async def test_task():
         test_ranking(api),
         test_search(api),
         test_teams(api),
-        test_tournament(api)
+        test_tournament(api),
+        # test_rate_limit(api),
     )
 
 
 if __name__ == "__main__":
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     loop = asyncio.new_event_loop()
     loop.run_until_complete(test_task())
     loop.close()

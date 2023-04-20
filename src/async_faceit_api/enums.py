@@ -1,6 +1,12 @@
 from enum import Enum
 
 
+class RateLimitBehaviour(Enum):
+    NEVER_WAIT = 0
+    ALWAYS_WAIT = 1
+    WAIT_SOME_SEC = 2
+
+
 class Expansion(Enum):
     NONE = ''
     ORGANIZER = 'organizer'
