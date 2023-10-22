@@ -22,6 +22,7 @@ extensions = [
     'sphinx.ext.todo',
     'sphinx.ext.viewcode',
     'sphinx.ext.autodoc',
+    'sphinx_rtd_theme',
 ]
 epub_show_urls = 'footnote'
 
