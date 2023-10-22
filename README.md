@@ -1,21 +1,8 @@
 # Async faceit API
 
-Async wrapper for the faceit API for csgo.
+Async wrapper for the faceit API.
 
 [Here are the docs](https://async-faceit-api.readthedocs.io/en/latest/async_faceit_api.html)
-
-### Error Handling
-
-Note that the async api methods return an object of type FaceitApiError 
-if the request was not successful. To distinguish between a successful 
-response and an error, you can easily use the object as a boolean expression:
-```
-    games = await api.games()
-    if games:
-        print('success')
-    else:
-        print('error')
-```
 
 ### Getting started
 
@@ -72,4 +59,17 @@ if __name__ == "__main__":
     loop = asyncio.new_event_loop()
     loop.run_until_complete(my_task())
     loop.close()
+```
+
+### Error Handling
+
+Note that the async api methods return an object of type FaceitApiError 
+if the request was not successful. To distinguish between a successful 
+response and an error, you can easily use the object as a boolean expression:
+```
+    games = await api.games()
+    if games:
+        print('success')
+    else:
+        print('error')
 ```

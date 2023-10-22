@@ -356,3 +356,4 @@ class Game(Enum):
     PUBG_MOBILE = 'pubgmobile'
     ROCKET_LEAGUE = 'rocket_league'
     CS_GO = 'csgo'
+    CS2 = 'cs2'

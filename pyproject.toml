@@ -4,11 +4,11 @@ build-backend = "hatchling.build"
 
 [project]
 name = "async_faceit_api"
-version = "0.1.2"
+version = "0.1.4"
 authors = [
   { name="Stuart", email="stuart.the.yellow.one@gmail.com" },
 ]
-description = "Async wrapper for the faceit API for csgo"
+description = "Async wrapper for the faceit API"
 documentation = "https://async-faceit-api.readthedocs.io/en/latest/index.html"
 readme = "README.md"
 requires-python = ">=3.8"
