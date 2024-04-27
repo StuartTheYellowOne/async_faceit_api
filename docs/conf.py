@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.abspath('../src'))
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 project = 'Async Facit API'
-copyright = '2023, Stuart'
+copyright = '2024, Stuart'
 author = 'Stuart'
 
 # -- General configuration ---------------------------------------------------

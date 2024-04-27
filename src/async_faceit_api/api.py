@@ -14,10 +14,10 @@ class FaceitAPI:
     """
 
     __BASE_URL = 'https://open.faceit.com/data/v4/{}'
-    __LIMIT_PER_SEC = 100
+    __LIMIT_PER_10_SEC = 400
     __LIMIT_PER_H = 10_000
 
-    __sec_semaphore = Semaphore(__LIMIT_PER_SEC)
+    __10_sec_semaphore = Semaphore(__LIMIT_PER_10_SEC)
     __h_semaphore = Semaphore(__LIMIT_PER_H)
 
     def __init__(self, api_token: str, rate_limit_behaviour: RateLimitBehaviour = RateLimitBehaviour.WAIT_SOME_SEC):
@@ -28,18 +28,18 @@ class FaceitAPI:
         self.__rate_limit_behaviour = rate_limit_behaviour
 
     async def __make_request(self, method: str, url: str) -> Tuple[int, Any]:
-        if self.__rate_limit_behaviour == RateLimitBehaviour.NEVER_WAIT and (self.__sec_semaphore.locked() or self.__h_semaphore.locked()):
+        if self.__rate_limit_behaviour == RateLimitBehaviour.NEVER_WAIT and (self.__10_sec_semaphore.locked() or self.__h_semaphore.locked()):
             return 429, {}
         if self.__rate_limit_behaviour == RateLimitBehaviour.WAIT_SOME_SEC and self.__h_semaphore.locked():
             return 429, {}
-        await self.__sec_semaphore.acquire()
+        await self.__10_sec_semaphore.acquire()
         await self.__h_semaphore.acquire()
         try:
             async with request(method, url, headers=self.__header) as response:
                 return response.status, await response.json()
         finally:
             loop = asyncio.get_event_loop()
-            loop.call_later(1, self.__sec_semaphore.release)
+            loop.call_later(10, self.__10_sec_semaphore.release)
             loop.call_later(3600, self.__h_semaphore.release)
 
     @staticmethod
