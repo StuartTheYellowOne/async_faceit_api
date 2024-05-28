@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "async_faceit_api"
-version = "0.1.6"
+version = "0.1.7"
 authors = [
   { name="Stuart", email="stuart.the.yellow.one@gmail.com" },
 ]
@@ -13,7 +13,7 @@ documentation = "https://async-faceit-api.readthedocs.io/en/latest/index.html"
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
-  'aiohttp < 3.8.3',
+  'aiohttp < 3.9.5',
 ]
 classifiers = [
     "Programming Language :: Python :: 3",
